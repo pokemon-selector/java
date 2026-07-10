@@ -8,20 +8,23 @@
     
     <style>
         /* --- 3章専用：画面を飛び回る呪いの核（黒い点）の演出 --- */
+/* --- 3章専用：呪いの核（クリック判定拡大版） --- */
         .curse-core {
-            position: fixed;       /* 画面に固定 */
-            width: 12px;           /* 核のサイズ */
-            height: 12px;
-            background-color: #000000; /* 黒い点 */
-            border-radius: 50%;    /* 丸くする */
-            cursor: pointer;       /* ホバーで指マーク */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); /* 怪しい光 */
+            position: fixed;
+            width: 12px;           /* 見た目の幅 */
+            height: 12px;          /* 見た目の高さ */
+            background-color: #000000;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
             
-            /* 不規則な動きのアニメーションを適用 */
+            /* 20秒かけてゆっくり動かす */
             animation: moveCore 20s infinite linear alternate;
-            
-            /* 他の文字より手前に表示する（重要） */
             z-index: 9999;
+
+            /* ★ここを追加！透明な枠を広げて、クリックしやすくします */
+            border: 20px solid transparent; 
+            background-clip: padding-box;   /* 黒い色が外側ににじまないようにする設定 */
         }
 
         /* 黑い核を画面内（全体）で縦横無尽に動かすアニメーション設定 */
