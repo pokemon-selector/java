@@ -127,22 +127,24 @@ body {
     100% { transform: translate(-0.5px, -0.5px); }
 }
 
-/* --- 異変2（story2.html）用の赤文字バグ演出 --- */
-.corrupted-text {
-    color: #cc0000 !important; /* 文字を赤くする */
-    font-family: monospace;
-    letter-spacing: 2px;
-    background-color: #cc0000; /* ★文字と同じ赤を背景に塗ることで、一見読めなくする */
-    user-select: text;
+/* --- 異変2（story2.html）用の赤文字バグ演出（最優先版に修正） --- */
+body .corrupted-text {
+    color: #cc0000 !important;           /* 文字の色を赤にする */
+    background-color: #cc0000 !important;  /* 背景を同じ赤で100%塗りつぶす */
+    font-family: monospace !important;
+    letter-spacing: 2px !important;
+    display: inline-block !important;
+    user-select: text !important;
+    -webkit-user-select: text !important;
 }
 
 /* マウスでドラッグ（選択）した瞬間の見た目 */
-.corrupted-text::selection {
+body .corrupted-text::selection {
     background: #000000 !important; /* 選択すると背景が黒になる */
     color: #ffffff !important;      /* 選択すると文字が白になって浮き出る */
 }
 /* スマホなどのタップ選択用 */
-.corrupted-text::-moz-selection {
+body .corrupted-text::-moz-selection {
     background: #000000 !important;
     color: #ffffff !important;
 }
