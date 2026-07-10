@@ -195,5 +195,43 @@
     </script>
 
     <footer class="fiction-footer">※この物語はフィクションです。実在の人物・団体・事件等とは一切関係ありません。</footer>
+
+    <button id="dev-reset-btn" onclick="devResetData()">
+        ⚙ データを初期化してテスト
+    </button>
+
+    <style>
+        /* リセットボタンを右下に固定するデザイン */
+        #dev-reset-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333333;
+            color: #ffffff;
+            border: 1px solid #666666;
+            padding: 10px 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 5px;
+            z-index: 99999; /* ポップアップよりも手前に表示 */
+            font-family: sans-serif;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+        #dev-reset-btn:hover {
+            background: #cc0000; /* ホバーすると赤くなって警告感を出す */
+            border-color: #ff0000;
+        }
+    </style>
+
+    <script>
+        // ボタンが押されたらデータを消してリロードする関数
+        function devResetData() {
+            if (confirm("【開発者用確認】クリアデータをすべて初期化して、最初の状態に戻しますか？")) {
+                localStorage.clear(); // ブラウザの記憶を全消去
+                location.reload();    // ページを強制リロード
+            }
+        }
+    </script>
 </body>
 </html>
