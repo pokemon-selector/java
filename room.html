@@ -3,170 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>マイページ - ヨムノベル</title>
+    <title>幻想の庭 - 個人小説サイト</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* --- 段階的な怪奇演出用のCSS --- */
-        .status-phase-0 { background-color: #f4f6f9; transition: all 1.5s ease; }
+        /* --- 進行度によるサイトの汚染演出 --- */
+        
+        /* 段階1：ちょっと不穏 */
+        .phase-1 { background-color: #eeeade !important; }
+        .phase-1 .info-section { border-color: #cc0000; }
 
-        /* 異変1クリア：少し薄暗く */
-        .status-phase-1 { 
-            background-color: #e2e5ec !important; 
-            color: #111;
-        }
-        .status-phase-1 .room-desc { color: #8b0000 !important; }
+        /* 段階2：ダークモード化（狂気・中） */
+        .phase-2 { background-color: #1a1a1a !important; color: #dddddd !important; }
+        .phase-2 .site-wrapper { background: #262626 !important; border-color: #444 !important; }
+        .phase-2 .site-title { color: #ff4444 !important; }
+        .phase-2 .site-subtitle { color: #aaa !important; }
+        .phase-2 .info-section { background: #1f1f1f !important; border-color: #ff4444 !important; color: #ccc !important; }
+        .phase-2 .info-title { color: #ff4444 !important; border-bottom-color: #444; }
+        .phase-2 .novel-link { color: #4488ff !important; }
+        .phase-2 .novel-story-desc { color: #999 !important; }
 
-        /* 異変2クリア：さらに暗く */
-        .status-phase-2 { 
-            background-color: #2b2d31 !important; 
-            color: #eee !important;
-        }
-        .status-phase-2 nav { background: #1e1f22 !important; border-bottom: 1px solid #444 !important; }
-        .status-phase-2 .nav-logo { color: #ff3333 !important; }
-        .status-phase-2 .user-badge { background: #383a40 !important; color: #fff; }
-        .status-phase-2 .room-container h2 { color: #ff3333 !important; }
-        .status-phase-2 .room-desc { color: #bbb !important; }
-        .status-phase-2 .story-card { background: #1e1f22 !important; border: 1px solid #444 !important; color: #fff !important; }
-        .status-phase-2 .story-card p { color: #fff !important; }
-
-        /* 中間ニュース後：赤黒く染まり、自動で微振動 */
-        .status-phase-3 { 
-            background-color: #110000 !important; 
+        /* 段階3：赤黒いバグ（狂気・最大） */
+        .phase-3 { 
+            background-color: #0d0000 !important; 
             color: #ff3333 !important;
-            animation: room-glitch-shake 0.3s infinite alternate;
+            animation: site-glitch 0.3s infinite alternate;
         }
-        .status-phase-3 nav { background: #000000 !important; border-bottom: 1px solid #cc0000 !important; }
-        .status-phase-3 .nav-logo { color: #ff0000 !important; letter-spacing: 4px; }
-        .status-phase-3 .user-badge { background: #220000 !important; color: #ff3333; border: 1px solid #ff0000; }
-        .status-phase-3 .room-container h2 { color: #ff0000 !important; text-shadow: 0 0 8px #ff0000; }
-        .status-phase-3 .room-desc { color: #ff6666 !important; font-weight: bold; }
-        .status-phase-3 .story-card { background: #050000 !important; border: 1px solid #ff0000 !important; color: #fff !important; box-shadow: 0 0 15px rgba(255,0,0,0.2) !important; }
-        .status-phase-3 .story-card p { color: #ff3333 !important; }
-        .status-phase-3 .story-link-btn { background: #cc0000 !important; box-shadow: 0 2px 8px rgba(200, 0, 0, 0.5) !important; }
+        .phase-3 .site-wrapper { background: #000000 !important; border-color: #ff0000 !important; box-shadow: 0 0 20px rgba(255,0,0,0.3) !important; }
+        .phase-3 .site-title { color: #ff0000 !important; text-shadow: 0 0 5px #ff0000; }
+        .phase-3 .site-subtitle { color: #ff6666 !important; }
+        .phase-3 .info-section { background: #1a0000 !important; border-color: #ff0000 !important; color: #ff8888 !important; }
+        .phase-3 .info-title { color: #ff0000 !important; }
+        .phase-3 .novel-link { color: #ff3333 !important; text-shadow: 0 0 3px #ff0000; }
+        .phase-3 .novel-story-desc { color: #ffaaaa !important; }
+        .phase-3 .novel-list-title { border-left-color: #ff0000; }
 
-        @keyframes room-glitch-shake {
-            0% { transform: translate(0, 0) skewX(0deg); }
-            50% { transform: translate(1px, -1px) skewX(0.5deg); }
-            100% { transform: translate(-1px, 1px) skewX(-0.5deg); }
+        @keyframes site-glitch {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(1px, -1px); }
         }
     </style>
 </head>
-<body id="room-body-element" class="room-body status-phase-0">
+<body id="site-body" class="phase-0">
 
-    <nav>
-        <div class="nav-logo">■ ヨムノベル (マイページ)</div>
-        <div class="user-badge">ようこそ、 <span id="display-name">ゲスト</span> さん</div>
-    </nav>
+    <div class="site-wrapper">
+        <div class="site-header">
+            <h1 class="site-title" id="main-title">幻想の庭</h1>
+            <p class="site-subtitle">管理人：ヨム / オンライン小説書きの個人創作サイトです。</p>
+        </div>
 
-    <div class="room-container">
-        <h2 id="room-title">あなたの閲覧履歴・おすすめの小説</h2>
-        <p id="room-desc-text" class="room-desc">最近読んだ小説や、システムが検知した未解決のファイルがここに保存されています。</p>
+        <div class="info-section">
+            <div class="info-title" id="info-header">📌 更新履歴 & 雑記</div>
+            <p id="info-text" style="margin: 5px 0 0 0;">
+                ようこそ、<span id="player-name" style="font-weight: bold;">ゲスト</span>さん。まったりとホラーや不思議な短編小説を書いています。感想などいただけると励みになります！
+            </p>
+        </div>
 
-        <div class="links-grid">
-            <div class="story-card" id="card-1" style="display: flex;">
-                <div class="story-icon">📁</div>
-                <h3>異変の章：其の一</h3>
-                <p>「ついてくるもの」</p>
-                <span class="status-badge" id="status-1">未解決</span>
-                <a href="story1.html" class="story-link-btn">この小説を読む</a>
+        <div class="novel-list-title">◆ 短編小説（連載一覧）</div>
+
+        <div class="novel-container-list">
+            
+            <div class="novel-item" id="item-1" style="display: block;">
+                <div class="novel-item-header">
+                    <a href="story1.html" class="novel-link">第一章「ついてくるもの」</a>
+                    <span class="status-tag" id="tag-1">未読</span>
+                </div>
+                <p class="novel-story-desc">夕暮れの帰り道。僕の後ろをぴったりと歩く、正体不明の影の正体とは……。</p>
             </div>
 
-            <div class="story-card" id="card-2" style="display: none;">
-                <div class="story-icon">👁️</div>
-                <h3>異変の章：其の二</h3>
-                <p>「バグと視線」</p>
-                <span class="status-badge" id="status-2">未解決</span>
-                <a href="story2.html" class="story-link-btn">この小説を読む</a>
+            <div class="novel-item" id="item-2" style="display: none;">
+                <div class="novel-item-header">
+                    <a href="story2.html" class="novel-link">第二章「バグと視線」</a>
+                    <span class="status-tag" id="tag-2">未読</span>
+                </div>
+                <p class="novel-story-desc">スマートフォンの画面が真っ赤に染まる。バグの奥から誰かが見つめている。</p>
             </div>
 
-            <div class="story-card" id="card-3" style="display: none;">
-                <div class="story-icon">🌀</div>
-                <h3>異変の章：其の三</h3>
-                <p>「歪む空間」</p>
-                <span class="status-badge" id="status-3">未解決</span>
-                <a href="story3.html" class="story-link-btn">この小説を読む</a>
+            <div class="novel-item" id="item-3" style="display: none;">
+                <div class="novel-item-header">
+                    <a href="story3.html" class="novel-link">第三章「歪む空間」</a>
+                    <span class="status-tag" id="tag-3">未読</span>
+                </div>
+                <p class="novel-story-desc">部屋全体がガタガタと悲鳴をあげる。この空間のどこかに、呪いの核がある。</p>
             </div>
 
-            <div class="story-card" id="card-4" style="display: none;">
-                <div class="story-icon">⚠️</div>
-                <h3>異変の章：其の四</h3>
-                <p>「無限の警告 nudge」</p>
-                <span class="status-badge" id="status-4">未解決</span>
-                <a href="story4.html" class="story-link-btn">この小説を読む</a>
+            <div class="novel-item" id="item-4" style="display: none;">
+                <div class="novel-item-header">
+                    <a href="story4.html" class="novel-link">第四章「無限の警告」</a>
+                    <span class="status-tag" id="tag-4">未読</span>
+                </div>
+                <p class="novel-story-desc">画面を埋め尽くすメッセージ。システムからの警告は、一体誰の声なのか。</p>
             </div>
 
-            <div class="story-card" id="card-5" style="display: none;">
-                <div class="story-icon">💀</div>
-                <h3>異変の章：其の五</h3>
-                <p>「最後の対価」</p>
-                <span class="status-badge" id="status-5">未解決</span>
-                <a href="story5.html" class="story-link-btn">この小説を読む</a>
+            <div class="novel-item" id="item-5" style="display: none;">
+                <div class="novel-item-header">
+                    <a href="story5.html" class="novel-link">最終章「最後の対価」</a>
+                    <span class="status-tag" id="tag-5">未読</span>
+                </div>
+                <p class="novel-story-desc">もう終わりだ。迫りくる黒い影。儀式を終わらせるために、あなたの名前を……。</p>
             </div>
+
         </div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // 名前の復元
             const savedName = localStorage.getItem("savedPlayerName") || "ゲスト";
-            document.getElementById("display-name").innerText = savedName;
+            document.getElementById("player-name").innerText = savedName;
 
-            // 各ストーリーのクリア状況を取得
             const c1 = localStorage.getItem("clear_story1") === "true";
             const c2 = localStorage.getItem("clear_story2") === "true";
             const c3 = localStorage.getItem("clear_story3") === "true";
             const c4 = localStorage.getItem("clear_story4") === "true";
             const c5 = localStorage.getItem("clear_story5") === "true";
 
-            // バッジ（解決済み）の表示更新
+            // ステータスタグの更新
             const clears = [c1, c2, c3, c4, c5];
             clears.forEach((cleared, index) => {
                 const num = index + 1;
-                const badge = document.getElementById(`status-${num}`);
-                if (badge && cleared) {
-                    badge.innerText = "解決済み";
-                    badge.classList.add("cleared");
+                const tag = document.getElementById(`tag-${num}`);
+                if (tag && cleared) {
+                    tag.innerText = "読了";
+                    tag.classList.add("cleared");
                 }
             });
 
-            // 1つずつ段階的に解放するロジック（安全弁付き）
-            if (c1) {
-                document.getElementById("card-2").style.display = "flex";
-            }
-            if (c2) {
-                document.getElementById("card-3").style.display = "flex";
-            }
+            // 段階解放
+            if (c1) document.getElementById("item-2").style.display = "block";
+            if (c2) document.getElementById("item-3").style.display = "block";
 
-            // 【転送ロジック】1, 2, 3が全てクリアされていて、まだ中間ニュースを見ていないならニュースへ
+            // 中間ニュースへの強制移動
             if (c1 && c2 && c3 && localStorage.getItem("seen_mid_news") !== "true") {
                 localStorage.setItem("seen_mid_news", "true");
                 window.location.href = "news1.html";
-                return; // 処理を中断して即座に遷移
+                return;
             }
 
-            // 中間ニュースを見終えた後の後半戦解放ロジック
+            // 後半の解放
             if (localStorage.getItem("seen_mid_news") === "true") {
-                document.getElementById("card-4").style.display = "flex";
-                if (c4) {
-                    document.getElementById("card-5").style.display = "flex";
-                }
+                document.getElementById("item-4").style.display = "block";
+                if (c4) document.getElementById("item-5").style.display = "block";
             }
 
-            // --- 進行度による部屋の雰囲気（デザイン）切り替え ---
-            const bodyEl = document.getElementById("room-body-element");
-            const descEl = document.getElementById("room-desc-text");
-            const titleEl = document.getElementById("room-title");
+            // --- 進行度による「個人サイトの狂気」演出切り替え ---
+            const bodyEl = document.getElementById("site-body");
+            const infoHeader = document.getElementById("info-header");
+            const infoText = document.getElementById("info-text");
+            const mainTitle = document.getElementById("main-title");
 
             if (localStorage.getItem("seen_mid_news") === "true") {
-                bodyEl.className = "room-body status-phase-3";
-                titleEl.innerText = "■■■警告：未確認ファイルがシステムを侵食中■■■";
-                descEl.innerText = "逃 げ ら れ な い 逃 げ ら れ な い 逃 げ ら れ な い";
+                // 後半戦（赤黒バグ）
+                bodyEl.className = "phase-3";
+                mainTitle.innerText = "死 亡 サイト";
+                infoHeader.innerText = "🚨 警 告 🚨";
+                infoText.innerHTML = "みつかったみつかったみつかったみつかったみつかったみつかったみつかったみつかったみつかった";
             } else if (c2) {
-                bodyEl.className = "room-body status-phase-2";
-                descEl.innerText = "ノイズが混入しています。画面の異常に注意してください。";
+                // 2章クリア（ダークモード・不穏）
+                bodyEl.className = "phase-2";
+                mainTitle.innerText = "幻想の逝き庭";
+                infoHeader.innerText = "📌 管理人から緊急の連絡";
+                infoText.innerText = "最近、サイトのデータが一部破損しているようです。不可解な文字列を見つけても、決して読まないでください。";
             } else if (c1) {
-                bodyEl.className = "room-body status-phase-1";
-                descEl.innerText = "誰かのログイン形跡があります。背後に気を付けてください。";
+                // 1章クリア（ちょっと変）
+                bodyEl.className = "phase-1";
+                infoText.innerHTML = "ようこそ、" + savedName + "さん。……さっきから、部屋の外で変な物音が聞こえる気がするんです。気のせいだといいんですが。";
             }
         });
     </script>
