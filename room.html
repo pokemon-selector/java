@@ -7,23 +7,21 @@
     <link rel="stylesheet" href="style.css">
     <style>
         /* --- 段階的な怪奇演出用のCSS --- */
-        
-        /* 初期状態：ノーマル */
         .status-phase-0 { background-color: #f4f6f9; transition: all 1.5s ease; }
 
-        /* 異変1クリア：少し薄暗くなり、フォントが不穏に */
+        /* 異変1クリア：少し薄暗く */
         .status-phase-1 { 
             background-color: #e2e5ec !important; 
             color: #111;
         }
         .status-phase-1 .room-desc { color: #8b0000 !important; }
 
-        /* 異変2クリア：さらに暗く、画面がときどき微振動する */
+        /* 異変2クリア：さらに暗く */
         .status-phase-2 { 
             background-color: #2b2d31 !important; 
             color: #eee !important;
         }
-        .status-phase-2 nav { background: #1e1f22 !important; border-bottom: 1px solid #333 !important; }
+        .status-phase-2 nav { background: #1e1f22 !important; border-bottom: 1px solid #444 !important; }
         .status-phase-2 .nav-logo { color: #ff3333 !important; }
         .status-phase-2 .user-badge { background: #383a40 !important; color: #fff; }
         .status-phase-2 .room-container h2 { color: #ff3333 !important; }
@@ -31,7 +29,7 @@
         .status-phase-2 .story-card { background: #1e1f22 !important; border: 1px solid #444 !important; color: #fff !important; }
         .status-phase-2 .story-card p { color: #fff !important; }
 
-        /* 中間ニュース後（異変3クリア・後半戦）：赤黒く染まり、完全にバグった部屋 */
+        /* 中間ニュース後：赤黒く染まり、自動で微振動 */
         .status-phase-3 { 
             background-color: #110000 !important; 
             color: #ff3333 !important;
@@ -57,4 +55,122 @@
 
     <nav>
         <div class="nav-logo">■ ヨムノベル (マイページ)</div>
-        <div class="user-badge">ようこそ、 <span id="display-name
+        <div class="user-badge">ようこそ、 <span id="display-name">ゲスト</span> さん</div>
+    </nav>
+
+    <div class="room-container">
+        <h2 id="room-title">あなたの閲覧履歴・おすすめの小説</h2>
+        <p id="room-desc-text" class="room-desc">最近読んだ小説や、システムが検知した未解決のファイルがここに保存されています。</p>
+
+        <div class="links-grid">
+            <div class="story-card" id="card-1" style="display: flex;">
+                <div class="story-icon">📁</div>
+                <h3>異変の章：其の一</h3>
+                <p>「ついてくるもの」</p>
+                <span class="status-badge" id="status-1">未解決</span>
+                <a href="story1.html" class="story-link-btn">この小説を読む</a>
+            </div>
+
+            <div class="story-card" id="card-2" style="display: none;">
+                <div class="story-icon">👁️</div>
+                <h3>異変の章：其の二</h3>
+                <p>「バグと視線」</p>
+                <span class="status-badge" id="status-2">未解決</span>
+                <a href="story2.html" class="story-link-btn">この小説を読む</a>
+            </div>
+
+            <div class="story-card" id="card-3" style="display: none;">
+                <div class="story-icon">🌀</div>
+                <h3>異変の章：其の三</h3>
+                <p>「歪む空間」</p>
+                <span class="status-badge" id="status-3">未解決</span>
+                <a href="story3.html" class="story-link-btn">この小説を読む</a>
+            </div>
+
+            <div class="story-card" id="card-4" style="display: none;">
+                <div class="story-icon">⚠️</div>
+                <h3>異変の章：其の四</h3>
+                <p>「無限の警告 nudge」</p>
+                <span class="status-badge" id="status-4">未解決</span>
+                <a href="story4.html" class="story-link-btn">この小説を読む</a>
+            </div>
+
+            <div class="story-card" id="card-5" style="display: none;">
+                <div class="story-icon">💀</div>
+                <h3>異変の章：其の五</h3>
+                <p>「最後の対価」</p>
+                <span class="status-badge" id="status-5">未解決</span>
+                <a href="story5.html" class="story-link-btn">この小説を読む</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // 名前の復元
+            const savedName = localStorage.getItem("savedPlayerName") || "ゲスト";
+            document.getElementById("display-name").innerText = savedName;
+
+            // 各ストーリーのクリア状況を取得
+            const c1 = localStorage.getItem("clear_story1") === "true";
+            const c2 = localStorage.getItem("clear_story2") === "true";
+            const c3 = localStorage.getItem("clear_story3") === "true";
+            const c4 = localStorage.getItem("clear_story4") === "true";
+            const c5 = localStorage.getItem("clear_story5") === "true";
+
+            // バッジ（解決済み）の表示更新
+            const clears = [c1, c2, c3, c4, c5];
+            clears.forEach((cleared, index) => {
+                const num = index + 1;
+                const badge = document.getElementById(`status-${num}`);
+                if (badge && cleared) {
+                    badge.innerText = "解決済み";
+                    badge.classList.add("cleared");
+                }
+            });
+
+            // 1つずつ段階的に解放するロジック（安全弁付き）
+            if (c1) {
+                document.getElementById("card-2").style.display = "flex";
+            }
+            if (c2) {
+                document.getElementById("card-3").style.display = "flex";
+            }
+
+            // 【転送ロジック】1, 2, 3が全てクリアされていて、まだ中間ニュースを見ていないならニュースへ
+            if (c1 && c2 && c3 && localStorage.getItem("seen_mid_news") !== "true") {
+                localStorage.setItem("seen_mid_news", "true");
+                window.location.href = "news1.html";
+                return; // 処理を中断して即座に遷移
+            }
+
+            // 中間ニュースを見終えた後の後半戦解放ロジック
+            if (localStorage.getItem("seen_mid_news") === "true") {
+                document.getElementById("card-4").style.display = "flex";
+                if (c4) {
+                    document.getElementById("card-5").style.display = "flex";
+                }
+            }
+
+            // --- 進行度による部屋の雰囲気（デザイン）切り替え ---
+            const bodyEl = document.getElementById("room-body-element");
+            const descEl = document.getElementById("room-desc-text");
+            const titleEl = document.getElementById("room-title");
+
+            if (localStorage.getItem("seen_mid_news") === "true") {
+                bodyEl.className = "room-body status-phase-3";
+                titleEl.innerText = "■■■警告：未確認ファイルがシステムを侵食中■■■";
+                descEl.innerText = "逃 げ ら れ な い 逃 げ ら れ な い 逃 げ ら れ な い";
+            } else if (c2) {
+                bodyEl.className = "room-body status-phase-2";
+                descEl.innerText = "ノイズが混入しています。画面の異常に注意してください。";
+            } else if (c1) {
+                bodyEl.className = "room-body status-phase-1";
+                descEl.innerText = "誰かのログイン形跡があります。背後に気を付けてください。";
+            }
+        });
+    </script>
+
+    <footer class="fiction-footer">※この物語はフィクションです。実在の人物・団体・事件等とは一切関係ありません。</footer>
+</body>
+</html>
