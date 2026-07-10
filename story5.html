@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最後の対価 - ヨムノベル</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="shadow-overlay" style="display: block;"></div>
+
+    <nav>
+        <div class="nav-logo">■ ヨムノベル (閲覧モード)</div>
+        <div class="user-badge"><a href="room.html" style="color: #333; text-decoration: none;">◁ 部屋に戻る</a></div>
+    </nav>
+
+    <div class="novel-container">
+        <div class="novel-title">最後の対価</div>
+        
+        <div id="novel-body-text">
+            <p class="novel-p">もう逃げられない。部屋の四隅から、実体を持った真っ黒な影が、じわじわと僕の体を飲み込もうと伸ばされてくる。</p>
+            <p class="novel-p">この呪いを完全に終わらせるための対価が必要だ。この怪異に、生年生死の生贄となる者の「登録した名前」を正確に差し出せば、この苦しみから解放されるのだろうか？</p>
+        </div>
+
+        <div class="ans-box">
+            <p id="hint-label" style="color: #cc0000; font-weight: bold;">呪いを完了させるため、あなたの「名前」を入力してください</p>
+            <input type="text" id="solve-input" class="ans-input" placeholder="あなたの登録名">
+            <button class="ans-btn" onclick="checkAnswer5()">送信</button>
+        </div>
+    </div>
+
+    <div id="ritual-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; color: #fff; z-index: 1000; justify-content: center; align-items: center; text-align: center;">
+        <div id="end-message" style="font-size: 2rem; letter-spacing: 6px; font-weight: bold; opacity: 0; transition: opacity 2s ease;">
+            ありがとう。<br>呪いは完成された。
+        </div>
+    </div>
+
+    <script>
+        function checkAnswer5() {
+            const answer = document.getElementById("solve-input").value.trim();
+            // 最初にindex.htmlで登録した名前をブラウザから取得
+            const savedName = localStorage.getItem("savedPlayerName") || "ゲスト";
+
+            if (answer === savedName) {
+                // 1. 呪いの完成画面を表示
+                const ritualScreen = document.getElementById("ritual-screen");
+                ritualScreen.style.display = "flex";
+                
+                // 2. 0.5秒後にメッセージをじわっと浮かび上がらせる
+                setTimeout(() => {
+                    document.getElementById("end-message").style.opacity = 1;
+                }, 500);
+
+                // 3. 4.5秒後に、自分が死亡したニュースページ（news2.html）へ強制移動
+                setTimeout(() => {
+                    localStorage.setItem("clear_story5", "true");
+                    window.location.href = "news2.html";
+                }, 4500);
+
+            } else {
+                alert("その名前では契約が一致しません。最初に登録した正確な名前を捧げてください。");
+            }
+        }
+    </script>
+</body>
+</html>
