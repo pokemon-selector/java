@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ついてくるもの - ヨムノベル</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">■ ヨムノベル (閲覧モード)</div>
+        <div class="user-badge"><a href="room.html" style="color: #333; text-decoration: none;">◁ 部屋に戻る</a></div>
+    </nav>
+
+    <div class="novel-container">
+        <div class="novel-title">ついてくるもの</div>
+        
+        <div id="novel-body-text">
+            <p class="novel-p">あの日、僕は見てはいけないものを見た。夕暮れの学校の帰り道、細い路地の奥に、<span class="vibrate-text">ウ</span>ズくまる影があった。</p>
+            <p class="novel-p">影は、こちらをじっと見つめている気がした。怖くなって走って逃げたが、足音がピッタリと<span class="vibrate-text">シ</span>がみつくように付いてくる。</p>
+            <p class="novel-p" style="font-weight: bold;">誰かが、僕の<span class="vibrate-text">ロ</span>グを、僕の背中を、ずっと覗いている。</p>
+            <p class="novel-p">息を切らして部屋に飛び込み、鍵を閉めた。しかし、部屋の隅から細い声が聞こえる。気付けば、僕の<span class="vibrate-text">ウ</span>エに、何かがいる。</p>
+        </div>
+
+        <div class="ans-box">
+            <p id="hint-label">この小説に潜む異変を解決するキーワードを入力してください</p>
+            <input type="text" id="solve-input" class="ans-input" placeholder="キーワード">
+            <button class="ans-btn" onclick="checkAnswer1()">送信</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswer1() {
+            const answer = document.getElementById("solve-input").value.trim();
+
+            if (answer === "ウシロ" || answer === "うしろ") {
+                // 一瞬画面を赤くする演出
+                document.body.classList.add("flash-red");
+                
+                alert("異変が収まりました。部屋に戻ります。");
+                
+                // ブラウザに「ストーリー1をクリアした」というフラグを保存
+                localStorage.setItem("clear_story1", "true");
+                
+                // 自動的に部屋（room.html）に戻る
+                window.location.href = "room.html";
+            } else {
+                alert("何も起きない。何かが違うようだ。");
+            }
+        }
+    </script>
+</body>
+</html>
