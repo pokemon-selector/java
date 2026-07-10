@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マイページ - ヨムノベル</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="room-body">
+
+    <nav>
+        <div class="nav-logo">■ ヨムノベル (マイページ)</div>
+        <div class="user-badge">ようこそ、 <span id="display-name">ゲスト</span> さん</div>
+    </nav>
+
+    <div class="room-container">
+        <h2>あなたの閲覧履歴・おすすめの小説</h2>
+        <p class="room-desc">最近読んだ小説や、システムが検知した未解決のファイルがここに保存されています。</p>
+
+        <div class="links-grid">
+            <div class="story-card" id="card-1">
+                <h3>異変の章：其の一</h3>
+                <p>「ついてくるもの」</p>
+                <a href="story1.html" class="story-link-btn">この小説を読む</a>
+                <span class="status-badge" id="status-1">未解決</span>
+            </div>
+
+            <div class="story-card" id="card-2">
+                <h3>異変の章：其の二</h3>
+                <p>「バグと視線」</p>
+                <a href="story2.html" class="story-link-btn">この小説を読む</a>
+                <span class="status-badge" id="status-2">未解決</span>
+            </div>
+
+            <div class="story-card" id="card-3">
+                <h3>異変の章：其の三</h3>
+                <p>「歪む空間」</p>
+                <a href="story3.html" class="story-link-btn">この小説を読む</a>
+                <span class="status-badge" id="status-3">未解決</span>
+            </div>
+
+            <div class="story-card locked" id="card-4" style="display: none;">
+                <h3>異変の章：其の四</h3>
+                <p>「無限の警告」</p>
+                <a href="story4.html" class="story-link-btn">この小説を読む</a>
+                <span class="status-badge" id="status-4">未解決</span>
+            </div>
+
+            <div class="story-card locked" id="card-5" style="display: none;">
+                <h3>異変の章：其の五</h3>
+                <p>「最後の対価」</p>
+                <a href="story5.html" class="story-link-btn">この小説を読む</a>
+                <span class="status-badge" id="status-5">未解決</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // 登録された名前を呼び出して表示
+            const savedName = localStorage.getItem("savedPlayerName") || "ゲスト";
+            document.getElementById("display-name").innerText = savedName;
+
+            // 各ストーリーのクリア状況をブラウザの記憶からチェック
+            let clearCount = 0;
+            for (let i = 1; i <= 5; i++) {
+                if (localStorage.getItem(`clear_story${i}`) === "true") {
+                    document.getElementById(`status-${i}`).innerText = "解決済み";
+                    document.getElementById(`status-${i}`).classList.add("cleared");
+                    if (i <= 3) clearCount++;
+                }
+            }
+
+            // 【超重要】異変を3つ解決していたら、中間ニュースページに強制転送
+            // すでにニュースを見たフラグがなければ転送する
+            if (clearCount === 3 && localStorage.getItem("seen_mid_news") !== "true") {
+                localStorage.setItem("seen_mid_news", "true"); // 何度も転送されないようにロック
+                window.location.href = "news1.html";
+                return;
+            }
+
+            // 中間ニュースを見終えて帰ってきた場合、後半の4と5を解放する
+            if (localStorage.getItem("seen_mid_news") === "true") {
+                document.getElementById("card-4").style.display = "block";
+                document.getElementById("card-5").style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
