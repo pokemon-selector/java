@@ -3,47 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>歪む空間 - ヨムノベル</title>
-    <link rel="stylesheet" href="/pokemon-selector/java/style.css">
-</head>
-<body class="glitch-bg">
+    <title>歪む空間 - 幻想の庭</title>
+    <link rel="stylesheet" href="./style.css">
+    
+    <style>
+        /* --- 3章専用：画面を飛び回る呪いの核（黒い点）の演出 --- */
+        .curse-core {
+            position: fixed;       /* 画面に固定 */
+            width: 12px;           /* 核のサイズ */
+            height: 12px;
+            background-color: #000000; /* 黒い点 */
+            border-radius: 50%;    /* 丸くする */
+            cursor: pointer;       /* ホバーで指マーク */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); /* 怪しい光 */
+            
+            /* 不規則な動きのアニメーションを適用 */
+            animation: moveCore 5s infinite linear alternate;
+            
+            /* 他の文字より手前に表示する（重要） */
+            z-index: 9999;
+        }
 
-    <nav>
-        <div class="nav-logo">■ ヨムノベル (閲覧モード)</div>
-        <div class="user-badge"><a href="room.html" style="color: #333; text-decoration: none;">◁ 部屋に戻る</a></div>
+        /* 黑い核を画面内（全体）で縦横無尽に動かすアニメーション設定 */
+        @keyframes moveCore {
+            0% { top: 10%; left: 10%; }
+            15% { top: 60%; left: 30%; }
+            30% { top: 20%; left: 80%; }
+            45% { top: 80%; left: 50%; }
+            60% { top: 40%; left: 90%; }
+            75% { top: 90%; left: 10%; }
+            90% { top: 50%; left: 60%; }
+            100% { top: 20%; left: 20%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav style="padding: 15px 30px; background: transparent; text-align: left;">
+        <a href="room.html" style="color: #666; text-decoration: none; font-size: 0.9rem;">◁ 戻る</a>
     </nav>
 
-    <div class="novel-container">
-        <div class="novel-title">歪む空間</div>
+    <div class="curse-core" onclick="clearStage3()"></div>
+
+    <div class="novel-container" style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div class="novel-title" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 30px; text-align: center;">第三章「歪む空間」</div>
         
         <div id="novel-body-text">
             <p class="novel-p">視線が、部屋のいたるところから突き刺さる。上から、下から、壁の隙間から。</p>
             <p class="novel-p">空間そのものが、ガタガタと歪み始めているような感覚（画面ノイズ）に襲われる。どこかに、この呪いの発信源となる『黒い核』が潜んでいるはずだ。早くそれを見つけて、消さなければ、僕は……。</p>
+            
+            <p class="novel-p" style="color: #cc0000; font-weight: bold; text-align: center; margin-top: 30px;">
+                文字を入力しても効果がない！画面のどこかに潜む『呪いの核（黒い点）』を直接探してクリックしろ！
+            </p>
         </div>
 
-        <div class="ans-box">
-            <p id="hint-label" style="color: #cc0000; font-weight: bold;">文字を入力しても効果がない！画面のどこかに潜む『呪いの核（黒い点）』を直接探してクリックしろ！</p>
-            <input type="text" id="solve-input" class="ans-input" placeholder="効果がない……" disabled>
-            <button class="ans-btn" disabled>送信不可</button>
+        <div class="ans-box" style="margin-top: 60px; border-top: 1px dotted #ccc; padding-top: 30px; text-align: center;">
+            <input type="text" class="ans-input" placeholder="効果がない……" disabled style="padding: 5px 10px; font-family: inherit; border: 1px solid #ccc; background: #eee; cursor: not-allowed; width: 200px;">
+            <button class="ans-btn" disabled style="padding: 4px 15px; font-family: inherit; background: #ddd; border: 1px solid #ccc; color: #888; cursor: not-allowed;">送信不可</button>
         </div>
     </div>
 
-    <div id="curse-icon" onclick="solveAnomal3()" title="呪いの核" style="display: block;"></div>
-
     <script>
-        function solveAnomal3() {
-            // 一瞬画面を赤くする演出
-            document.body.classList.add("flash-red");
+        function clearStage3() {
+            // クリックされたらクリア処理
+            alert("『呪いの核』を破壊しました！空間の歪みが収まっていきます……。");
             
-            alert("呪いの核を破壊しました。歪みが収まります。部屋に戻ります。");
-            
-            // ブラウザに「ストーリー3をクリアした」フラグを保存
+            // 3章クリアをブラウザに記憶
             localStorage.setItem("clear_story3", "true");
             
-            // 部屋に戻る（戻った瞬間、room.html側の仕掛けで中間ニュースに飛ばされます）
+            // 部屋（room.html）に戻る
             window.location.href = "room.html";
         }
     </script>
+
     <footer class="fiction-footer">※この物語はフィクションです。実在の人物・団体・事件等とは一切関係ありません。</footer>
 </body>
 </html>
