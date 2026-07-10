@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>歪む空間 - ヨムノベル</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="glitch-bg">
+
+    <nav>
+        <div class="nav-logo">■ ヨムノベル (閲覧モード)</div>
+        <div class="user-badge"><a href="room.html" style="color: #333; text-decoration: none;">◁ 部屋に戻る</a></div>
+    </nav>
+
+    <div class="novel-container">
+        <div class="novel-title">歪む空間</div>
+        
+        <div id="novel-body-text">
+            <p class="novel-p">視線が、部屋のいたるところから突き刺さる。上から、下から、壁の隙間から。</p>
+            <p class="novel-p">空間そのものが、ガタガタと歪み始めているような感覚（画面ノイズ）に襲われる。どこかに、この呪いの発信源となる『黒い核』が潜んでいるはずだ。早くそれを見つけて、消さなければ、僕は……。</p>
+        </div>
+
+        <div class="ans-box">
+            <p id="hint-label" style="color: #cc0000; font-weight: bold;">文字を入力しても効果がない！画面のどこかに潜む『呪いの核（黒い点）』を直接探してクリックしろ！</p>
+            <input type="text" id="solve-input" class="ans-input" placeholder="効果がない……" disabled>
+            <button class="ans-btn" disabled>送信不可</button>
+        </div>
+    </div>
+
+    <div id="curse-icon" onclick="solveAnomal3()" title="呪いの核" style="display: block;"></div>
+
+    <script>
+        function solveAnomal3() {
+            // 一瞬画面を赤くする演出
+            document.body.classList.add("flash-red");
+            
+            alert("呪いの核を破壊しました。歪みが収まります。部屋に戻ります。");
+            
+            // ブラウザに「ストーリー3をクリアした」フラグを保存
+            localStorage.setItem("clear_story3", "true");
+            
+            // 部屋に戻る（戻った瞬間、room.html側の仕掛けで中間ニュースに飛ばされます）
+            window.location.href = "room.html";
+        }
+    </script>
+</body>
+</html>
