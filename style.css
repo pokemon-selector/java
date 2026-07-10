@@ -148,3 +148,68 @@ body .corrupted-text::-moz-selection {
     background: #000000 !important;
     color: #ffffff !important;
 }
+
+/* --- 中間ニュース（news1.html / news2.html）用の報道サイト風デザイン --- */
+.news-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif; /* ニュースなのでゴシック体 */
+}
+
+/* ニュースのヘッダーロゴ（J-BREAKING NEWS） */
+.news-header {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #222222;
+    border-bottom: 4px solid #cc0000; /* 警告を匂わせる赤い報道ライン */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* ニュースの主タイトル */
+.news-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    line-height: 1.4;
+    color: #111111;
+    margin-bottom: 10px;
+}
+
+/* 配信日時 */
+.news-date {
+    font-size: 0.85rem;
+    color: #666666;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* ニュース本文の段落 */
+.news-p {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: #333333;
+    margin-bottom: 18px;
+    text-align: justify;
+}
+
+/* 「小説の続きを強制的に読み込む」の不気味なリンクボタン */
+.news-force-link {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 25px;
+    background: #cc0000;
+    color: #ffffff !important;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+.news-force-link:hover {
+    background: #990000;
+}
