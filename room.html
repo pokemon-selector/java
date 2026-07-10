@@ -6,12 +6,11 @@
     <title>幻想の逝き庭 - 個人小説サイト</title>
     <link rel="stylesheet" href="./style.css">
     <style>
-        /* 章のリスト項目。最初はプログラムで自動的に隠すため、基本は表示 */
         .story-item {
             margin-bottom: 20px;
             transition: all 0.5s ease;
         }
-    </style>　
+    </style>
 </head>
 <body id="room-body">
 
@@ -23,9 +22,8 @@
 
         <div class="info-section">
             <h2 class="info-title">📌 管理人から緊急の連絡</h2>
-            <p class="info-p" style="color: #cc0000; font-weight: bold;">
-                最近、サイトのデータが一部破損しているようです。不可解な文字列を見つけても、決して読まないでください。
-            </p>
+            <p class="info-p" id="info-comment-text" style="font-weight: bold;">
+                </p>
         </div>
 
         <div class="novel-list-section">
@@ -54,9 +52,7 @@
         </div>
     </div>
 
-    <button id="dev-reset-btn" onclick="devResetData()">
-        ⚙ データを初期化してテスト
-    </button>
+    <button id="dev-reset-btn" onclick="devResetData()">⚙ データを初期化してテスト</button>
 
     <style>
         #dev-reset-btn {
@@ -70,7 +66,6 @@
     </style>
 
     <script>
-        // ページ読み込み時に進行度をチェック
         window.onload = function() {
             updateRoomProgress();
         };
@@ -78,54 +73,63 @@
         function updateRoomProgress() {
             const bodyEl = document.getElementById("room-body");
             const titleEl = document.getElementById("site-title-text");
+            const commentEl = document.getElementById("info-comment-text");
 
-            // 各章のクリア状況を取得
             const c1 = localStorage.getItem("clear_story1") === "true";
             const c2 = localStorage.getItem("clear_story2") === "true";
             const c3 = localStorage.getItem("clear_story3") === "true";
 
-            // --- クリア状況に合わせた「出現」と「既読化」のコントロール ---
+            // --- 進行度に応じた「管理人コメント」と「サイト崩壊演出」の切り替え ---
+            if (c3) {
+                // 【3章クリア後（全クリ状態）】
+                bodyEl.className = "phase-3";
+                titleEl.innerText = "幻想の逝き庭";
+                commentEl.innerHTML = "アクセスしてはいけない。もう手遅れだ。すべてが壊れていく。";
+                commentEl.style.color = "#cc0000";
+            } 
+            else if (c2) {
+                // 【2章クリア後（3章解放時）】
+                bodyEl.className = "phase-2";
+                titleEl.style.color = "#cc0000";
+                commentEl.innerHTML = "警告：サイト内のテキストが勝手に書き換わる深刻なバグが発生しています。現在原因究明中ですが、体調に異変を感じた方はすぐにブラウザを閉じてください。";
+                commentEl.style.color = "#cc0000";
+            } 
+            else if (c1) {
+                // 【1章クリア後（2章解放時）】
+                bodyEl.className = "phase-1";
+                titleEl.style.color = "";
+                commentEl.innerHTML = "お知らせ：最近、一部の読者様から「小説を読んでいる最中に画面がおかしくなる」「視線を感じる」との報告を受けております。当サイトは安全なスクリプトのみを使用しておりますのでご安心ください。";
+                commentEl.style.color = "#555555";
+            } 
+            else {
+                // 【初期状態（リセット後・1章のみ公開時）】
+                bodyEl.className = "";
+                titleEl.style.color = "";
+                commentEl.innerHTML = "管理人からのお知らせ：短編ホラー小説の不定期連載を開始しました！まずは第一章からお楽しみください。感想は掲示板までどうぞ。";
+                commentEl.style.color = "#333333";
+            }
 
-            // 1章がクリアされている場合
+            // --- 章の出現＆バッジ書き換え処理 ---
             if (c1) {
                 document.getElementById("badge-story1").innerText = "【 既読 】";
                 document.getElementById("badge-story1").style.color = "#888888";
-                document.getElementById("item-story2").style.display = "block"; // 2章を隠し部屋から出現させる
+                document.getElementById("item-story2").style.display = "block";
             }
-
-            // 2章がクリアされている場合
             if (c2) {
                 document.getElementById("badge-story2").innerText = "【 既読 】";
                 document.getElementById("badge-story2").style.color = "#888888";
-                document.getElementById("item-story3").style.display = "block"; // 3章を隠し部屋から出現させる
+                document.getElementById("item-story3").style.display = "block";
             }
-
-            // 3章がクリアされている場合
             if (c3) {
                 document.getElementById("badge-story3").innerText = "【 既読 】";
                 document.getElementById("badge-story3").style.color = "#888888";
             }
-
-            // --- 進行度によるサイトの闇堕ち演出 ---
-            if (c3) {
-                bodyEl.className = "phase-3";
-                titleEl.innerText = "幻想の逝き庭";
-            } else if (c2) {
-                bodyEl.className = "phase-2";
-                titleEl.style.color = "#cc0000";
-            } else if (c1) {
-                bodyEl.className = "phase-1";
-            } else {
-                bodyEl.className = "";
-                titleEl.style.color = "";
-            }
         }
 
-        // 開発用リセット関数
         function devResetData() {
             if (confirm("【開発者用確認】クリアデータをすべて初期化して、最初の状態に戻しますか？")) {
                 localStorage.clear();
-                location.reload(); // リロードすると、updateRoomProgressが走って再び2章・3章が隠れます
+                location.reload();
             }
         }
     </script>
