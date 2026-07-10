@@ -8,26 +8,29 @@
 </head>
 <body>
 
-    <nav>
-        <div class="nav-logo">■ ヨムノベル (閲覧モード)</div>
-        <div class="user-badge"><a href="room.html" style="color: #333; text-decoration: none;">◁ 部屋に戻る</a></div>
+    <nav style="padding: 15px 30px; background: transparent; text-align: left;">
+        <a href="room.html" style="color: #666; text-decoration: none; font-size: 0.9rem;">◁ 戻る</a>
     </nav>
 
-    <div class="novel-container">
-        <div class="novel-title">バグと視線</div>
+    <div class="novel-container" style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div class="novel-title" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 30px; text-align: center;">第二章「バグと視線」</div>
         
         <div id="novel-body-text">
             <p class="novel-p">異変はそれだけでは終わらなかった。次の日から、僕のスマートフォンの画面が時々おかしくなるのだ。</p>
             
-            <p class="novel-p corrupted-text">縺ゅ≠縺溘∪縺がいかれ繧区container縺ｿ縺､縺代◆縺励ｓ縺</p>
+            <p class="novel-p" style="text-align: center; font-size: 1.1rem;">
+                縺ゅ≠縺溘∪縺がいかれ繧区
+                <span class="corrupted-text">ミツケタ</span>
+                container縺ｿ縺､縺代◆縺
+            </p>
             
             <p class="novel-p">文字が真っ赤に染まり、バグのような記号が羅列される。けれど、その文字列をじっくり凝視して【ドラッグして選択】してみると、そこには明確な「意志」が隠されていることに気がついた。</p>
         </div>
 
-        <div class="ans-box">
-            <p id="hint-label">赤くにじむ文字化けの行を「ドラッグで選択」し、隠された言葉を暴いて入力してください</p>
-            <input type="text" id="solve-input" class="ans-input" placeholder="キーワード">
-            <button class="ans-btn" onclick="checkAnswer2()">送信</button>
+        <div class="ans-box" style="margin-top: 60px; border-top: 1px dotted #ccc; padding-top: 30px; text-align: center;">
+            <p id="hint-label" style="font-size: 0.9rem; color: #555; margin-bottom: 15px;">赤くにじむ文字化けの行を「ドラッグで選択」し、隠された言葉を暴いて入力してください</p>
+            <input type="text" id="solve-input" class="ans-input" placeholder="キーワード" style="padding: 5px 10px; font-family: inherit; border: 1px solid #b5ab93;">
+            <button class="ans-btn" onclick="checkAnswer2()" style="padding: 4px 15px; font-family: inherit; background: #f4ece1; border: 1px solid #b5ab93; cursor: pointer;">送信</button>
         </div>
     </div>
 
@@ -36,7 +39,6 @@
             const answer = document.getElementById("solve-input").value.trim();
 
             if (answer === "ミツケタ" || answer === "みつけた") {
-                document.body.classList.add("flash-red");
                 alert("異変が収まりました。部屋に戻ります。");
                 
                 // ブラウザに「ストーリー2をクリアした」フラグを保存
