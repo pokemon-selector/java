@@ -1,0 +1,359 @@
+:root {
+    --bg-clean: #ffffff;
+    --text-main: #333333;
+    --accent-blue: #1a73e8;
+    --news-bg: #f0f2f5;
+}
+
+/* ==========================================
+   全体設定
+========================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+}
+
+body {
+    background-color: var(--bg-clean);
+    color: var(--text-main);
+    transition: all 0.5s ease;
+    overflow-x: hidden;
+}
+
+/* 画面共通：フェーズ管理用（JSで切り替える） */
+.phase {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+}
+.phase.active {
+    display: block;
+}
+
+/* ==========================================
+   1. 新規登録ページ
+========================================== */
+#phase-register {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #f8f9fa;
+}
+
+.reg-box {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.reg-logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--accent-blue);
+    margin-bottom: 10px;
+}
+
+.reg-sub {
+    color: var(--accent-blue);
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.reg-box p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.reg-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    outline: none;
+}
+
+.reg-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ==========================================
+   2. 小説メインサイト
+========================================== */
+nav {
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-weight: bold;
+    color: var(--accent-blue);
+    font-size: 1.3rem;
+}
+
+.user-badge {
+    font-size: 0.9rem;
+    color: #555;
+    background: #eee;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.novel-container {
+    max-width: 680px;
+    margin: 40px auto;
+    padding: 20px;
+    line-height: 2;
+    letter-spacing: 0.05em;
+    font-size: 1.1rem;
+}
+
+.novel-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+}
+
+.novel-p {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+/* 謎解き入力フォーム */
+.ans-box {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 6px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.ans-box p {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.ans-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 200px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.ans-btn {
+    padding: 8px 20px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ==========================================
+   ★ 異変・ホラー用エフェクト
+========================================== */
+/* 異変1: 文字の小刻みな震え */
+.vibrate-text {
+    display: inline-block;
+    animation: shake 0.1s infinite;
+    color: #000;
+    font-weight: bold;
+}
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    100% { transform: translate(-1px, -1px) rotate(1deg); }
+}
+
+/* 異変2: 文字化けと赤変化 */
+.corrupted-text {
+    color: #aa0000;
+    font-family: monospace;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px rgba(255,0,0,0.3);
+}
+/* ドラッグ（選択）したときにだけ元の答えが見える設定 */
+.corrupted-text::selection {
+    background: #ff0000;
+    color: #ffffff;
+}
+
+/* 異変3: 画面のノイズ歪み */
+.glitch-bg {
+    animation: screen-glitch 0.3s infinite;
+}
+@keyframes screen-glitch {
+    0% { filter: hue-rotate(0deg) contrast(1); }
+    10% { filter: hue-rotate(90deg) contrast(1.5); transform: translateX(2px); }
+    12% { filter: none; transform: none; }
+    100% { filter: none; }
+}
+
+/* 異変3用の隠し呪いマーク（極薄の黒い丸） */
+#curse-icon {
+    display: none;
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 20px;
+    height: 20px;
+    background: #000;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.1;
+    transition: opacity 0.3s;
+}
+#curse-icon:hover {
+    opacity: 0.8;
+    background: #ff0000;
+}
+
+/* 異変5: 画面を徐々に包み込む黒い影 */
+#shadow-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.9) 100%);
+    z-index: 999;
+}
+
+/* ==========================================
+   3. 架空のニュースページ（共通）
+========================================== */
+.news-wrapper {
+    background: var(--news-bg);
+    min-height: 100vh;
+    padding: 20px;
+    color: #000;
+}
+
+.news-header {
+    background: #ff3333;
+    color: white;
+    padding: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.news-body {
+    max-width: 750px;
+    margin: 30px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.news-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    line-height: 1.4;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+.news-date {
+    color: #666;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+}
+
+.news-content p {
+    margin-bottom: 18px;
+    line-height: 1.7;
+    color: #222;
+}
+
+.news-alert-text {
+    color: #cc0000;
+    font-weight: bold;
+}
+
+.news-btn-box {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.news-return-link {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #333;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+/* ==========================================
+   4. 呪いの完成画面
+========================================== */
+#phase-ritual-end {
+    background: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.ritual-text {
+    font-size: 2rem;
+    letter-spacing: 6px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+/* ==========================================
+   5. 最後のニュース（死亡画面用個別調整）
+========================================== */
+.final-alert {
+    color: #cc0000;
+}
+
+.disconnected-text {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+/* 汎用正解演出用（一瞬画面を赤くする） */
+.flash-red {
+    background-color: #ff0000 !important;
+}
