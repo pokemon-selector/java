@@ -5,91 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>マイページ - ヨムノベル</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- 段階的な怪奇演出用のCSS --- */
+        
+        /* 初期状態：ノーマル */
+        .status-phase-0 { background-color: #f4f6f9; transition: all 1.5s ease; }
+
+        /* 異変1クリア：少し薄暗くなり、フォントが不穏に */
+        .status-phase-1 { 
+            background-color: #e2e5ec !important; 
+            color: #111;
+        }
+        .status-phase-1 .room-desc { color: #8b0000 !important; }
+
+        /* 異変2クリア：さらに暗く、画面がときどき微振動する */
+        .status-phase-2 { 
+            background-color: #2b2d31 !important; 
+            color: #eee !important;
+        }
+        .status-phase-2 nav { background: #1e1f22 !important; border-bottom: 1px solid #333 !important; }
+        .status-phase-2 .nav-logo { color: #ff3333 !important; }
+        .status-phase-2 .user-badge { background: #383a40 !important; color: #fff; }
+        .status-phase-2 .room-container h2 { color: #ff3333 !important; }
+        .status-phase-2 .room-desc { color: #bbb !important; }
+        .status-phase-2 .story-card { background: #1e1f22 !important; border: 1px solid #444 !important; color: #fff !important; }
+        .status-phase-2 .story-card p { color: #fff !important; }
+
+        /* 中間ニュース後（異変3クリア・後半戦）：赤黒く染まり、完全にバグった部屋 */
+        .status-phase-3 { 
+            background-color: #110000 !important; 
+            color: #ff3333 !important;
+            animation: room-glitch-shake 0.3s infinite alternate;
+        }
+        .status-phase-3 nav { background: #000000 !important; border-bottom: 1px solid #cc0000 !important; }
+        .status-phase-3 .nav-logo { color: #ff0000 !important; letter-spacing: 4px; }
+        .status-phase-3 .user-badge { background: #220000 !important; color: #ff3333; border: 1px solid #ff0000; }
+        .status-phase-3 .room-container h2 { color: #ff0000 !important; text-shadow: 0 0 8px #ff0000; }
+        .status-phase-3 .room-desc { color: #ff6666 !important; font-weight: bold; }
+        .status-phase-3 .story-card { background: #050000 !important; border: 1px solid #ff0000 !important; color: #fff !important; box-shadow: 0 0 15px rgba(255,0,0,0.2) !important; }
+        .status-phase-3 .story-card p { color: #ff3333 !important; }
+        .status-phase-3 .story-link-btn { background: #cc0000 !important; box-shadow: 0 2px 8px rgba(200, 0, 0, 0.5) !important; }
+
+        @keyframes room-glitch-shake {
+            0% { transform: translate(0, 0) skewX(0deg); }
+            50% { transform: translate(1px, -1px) skewX(0.5deg); }
+            100% { transform: translate(-1px, 1px) skewX(-0.5deg); }
+        }
+    </style>
 </head>
-<body class="room-body">
+<body id="room-body-element" class="room-body status-phase-0">
 
     <nav>
         <div class="nav-logo">■ ヨムノベル (マイページ)</div>
-        <div class="user-badge">ようこそ、 <span id="display-name">ゲスト</span> さん</div>
-    </nav>
-
-    <div class="room-container">
-        <h2>あなたの閲覧履歴・おすすめの小説</h2>
-        <p class="room-desc">最近読んだ小説や、システムが検知した未解決のファイルがここに保存されています。</p>
-
-        <div class="links-grid">
-            <div class="story-card" id="card-1">
-                <div class="story-icon">📁</div>
-                <h3>異変の章：其の一</h3>
-                <p>「ついてくるもの」</p>
-                <span class="status-badge" id="status-1">未解決</span>
-                <a href="story1.html" class="story-link-btn">この小説を読む</a>
-            </div>
-
-            <div class="story-card" id="card-2">
-                <div class="story-icon">👁️</div>
-                <h3>異変の章：其の二</h3>
-                <p>「バグと視線」</p>
-                <span class="status-badge" id="status-2">未解決</span>
-                <a href="story2.html" class="story-link-btn">この小説を読む</a>
-            </div>
-
-            <div class="story-card" id="card-3">
-                <div class="story-icon">🌀</div>
-                <h3>異変の章：其の三</h3>
-                <p>「歪む空間」</p>
-                <span class="status-badge" id="status-3">未解決</span>
-                <a href="story3.html" class="story-link-btn">この小説を読む</a>
-            </div>
-
-            <div class="story-card" id="card-4" style="display: none;">
-                <div class="story-icon">⚠️</div>
-                <h3>異変の章：其の四</h3>
-                <p>「無限の警告」</p>
-                <span class="status-badge" id="status-4">未解決</span>
-                <a href="story4.html" class="story-link-btn">この小説を読む</a>
-            </div>
-
-            <div class="story-card" id="card-5" style="display: none;">
-                <div class="story-icon">💀</div>
-                <h3>異変の章：其の五</h3>
-                <p>「最後の対価」</p>
-                <span class="status-badge" id="status-5">未解決</span>
-                <a href="story5.html" class="story-link-btn">この小説を読む</a>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const savedName = localStorage.getItem("savedPlayerName") || "ゲスト";
-            document.getElementById("display-name").innerText = savedName;
-
-            let clearCount = 0;
-            for (let i = 1; i <= 5; i++) {
-                if (localStorage.getItem(`clear_story${i}`) === "true") {
-                    const badge = document.getElementById(`status-${i}`);
-                    if (badge) {
-                        badge.innerText = "解決済み";
-                        badge.classList.add("cleared");
-                    }
-                    if (i <= 3) clearCount++;
-                }
-            }
-
-            if (clearCount === 3 && localStorage.getItem("seen_mid_news") !== "true") {
-                localStorage.setItem("seen_mid_news", "true");
-                window.location.href = "news1.html";
-                return;
-            }
-
-            if (localStorage.getItem("seen_mid_news") === "true") {
-                document.getElementById("card-4").style.display = "flex";
-                document.getElementById("card-5").style.display = "flex";
-            }
-        });
-    </script>
-
-    <footer class="fiction-footer">※この物語はフィクションです。実在の人物・団体・事件等とは一切関係ありません。</footer>
-</body>
-</html>
+        <div class="user-badge">ようこそ、 <span id="display-name
