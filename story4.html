@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>無限の警告 - ヨムノベル</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">■ ヨムノベル (閲覧モード)</div>
+        <div class="user-badge"><a href="room.html" style="color: #333; text-decoration: none;">◁ 部屋に戻る</a></div>
+    </nav>
+
+    <div class="novel-container">
+        <div class="novel-title">無限の警告</div>
+        
+        <div id="novel-body-text">
+            <p class="novel-p" id="stage4-text" style="word-break: break-all; color: #555; font-size: 0.95rem; line-height: 1.5;">
+                たすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけてたすけて
+            </p>
+        </div>
+
+        <div class="ans-box">
+            <p id="hint-label">すべての警告を消し去れ</p>
+            <input type="text" id="solve-input" class="ans-input" placeholder="キーワード">
+            <button class="ans-btn" onclick="checkAnswer4()">送信</button>
+        </div>
+    </div>
+
+    <script>
+        let popupCleared = false;
+
+        function checkAnswer4() {
+            const answer = document.getElementById("solve-input").value.trim();
+
+            // まだポップアップを出していない場合、強制的に3回アラートを出す
+            if (!popupCleared) {
+                alert("警告：システムが著しく汚染されています。");
+                alert("警告：深淵があなたを覗いています。");
+                alert("警告：後ろを振り返らないでください。");
+                
+                // 演出としてテキストとヒントを書き換える
+                document.getElementById("stage4-text").innerText = "よくできました。次が最後です。";
+                document.getElementById("stage4-text").style.color = "#cc0000";
+                document.getElementById("stage4-text").style.fontSize = "1.5rem";
+                document.getElementById("stage4-text").style.textAlign = "center";
+                
+                document.getElementById("hint-label").innerText = "「すすむ」と入力してください。";
+                document.getElementById("solve-input").value = "";
+                document.getElementById("solve-input").placeholder = "すすむ";
+                
+                popupCleared = true; // ポップアップイベント完了フラグ
+                return;
+            }
+
+            // ポップアップをクリアした後に「すすむ」と打てばクリア
+            if (popupCleared && answer === "すすむ") {
+                document.body.classList.add("flash-red");
+                alert("異変が収まりました。部屋に戻ります。");
+                
+                localStorage.setItem("clear_story4", "true");
+                window.location.href = "room.html";
+            } else {
+                alert("指示に従ってください。");
+            }
+        }
+    </script>
+</body>
+</html>
