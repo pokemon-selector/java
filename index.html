@@ -5,77 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>小説投稿プラットフォーム「ヨムノベル」</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
 </head>
-<body>
+<body class="register-body">
 
-    <div id="shadow-overlay"></div>
-
-    <div id="phase-register" class="phase active">
+    <div class="reg-container">
         <div class="reg-box">
             <div class="reg-logo">YomuNovel</div>
             <p class="reg-sub">〜新時代の読書体験を、あなたに〜</p>
             <p>サービスを利用するためにユーザー名をご登録ください。</p>
+            
             <input type="text" id="username-input" class="reg-input" placeholder="例：タロウ" maxlength="15">
-            <button id="register-submit-btn" class="reg-btn" onclick="startRegistration()">登録して読み始める</button>
+            <button id="register-submit-btn" class="reg-btn" onclick="goToNovelPage()">登録して読み始める</button>
         </div>
     </div>
 
-    <div id="phase-novel" class="phase">
-        <nav>
-            <div class="nav-logo">■ ヨムノベル</div>
-            <div class="user-badge">ようこそ、 <span class="player-name">ゲスト</span> さん</div>
-        </nav>
+    <script>
+        // Enterキーでも進めるようにする設定
+        document.getElementById("username-input").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") goToNovelPage();
+        });
 
-        <div class="novel-container">
-            <div class="novel-title" id="display-title">ついてくるもの</div>
-            <div id="novel-body-text"></div>
-
-            <div class="ans-box">
-                <p id="hint-label">この章の異変を解決するキーワードを入力してください</p>
-                <input type="text" id="solve-input" class="ans-input" placeholder="キーワード">
-                <button class="ans-btn" onclick="checkAnswer()">送信</button>
-            </div>
-        </div>
-
-        <div id="curse-icon" onclick="solveAnomal3()" title="呪いの核"></div>
-    </div>
-
-    <div id="phase-mid-news" class="phase">
-        <div class="news-header">J-BREAKING NEWS</div>
-        <div class="news-body">
-            <div class="news-title">都内および近郊で若者の「原因不明の急死」相次ぐ 共通する閲覧履歴に関連性か</div>
-            <div class="news-date">2026年7月10日 15:10配信</div>
-            <div class="news-content">
-                <p>ここ数週間の間に、都内を中心として10代から20代の男女が自宅で突然死する事案が少なくとも7件相次いで報告されていることが分かった。いずれの遺体にも目立った外傷はなく、死因はすべて急性の心不全と診断されています。</p>
-                <p>警察の捜査関係者によると、死亡した全員のスマートフォンやPCの閲覧履歴を解析したところ、共通して**特定の個人Webサイト**にアクセスしていたことが判明した。そのサイトでは奇妙な怪奇小説が掲載されていたという証言もある。</p>
-                <p class="news-alert-text">現在、サイバー犯罪対策課が該当のサイトの特定を進めているが、原因の究明には至っていない。専門家は「不審な文字列やバグのあるサイトを発見した場合は、直ちにブラウザを閉じるように」と警告している。</p>
-            </div>
-            <div class="news-btn-box">
-                <a href="#" class="news-return-link" onclick="backToNovelPart2()">小説の続きを強制的に読み込む</a>
-            </div>
-        </div>
-    </div>
-
-    <div id="phase-ritual-end" class="phase">
-        <div class="ritual-text" id="end-message">ありがとう。<br>呪いは完成された。</div>
-    </div>
-
-    <div id="phase-final-news" class="phase">
-        <div class="news-header">J-BREAKING NEWS</div>
-        <div class="news-body">
-            <div class="news-title final-alert" id="final-news-title">【速報】本日午後、自宅で死亡している <span class="player-name">ユーザー</span> さんが発見される</div>
-            <div class="news-date">2026年7月10日 15:45配信</div>
-            <div class="news-content">
-                <p>本日午後3時すぎ、警察に通報があり、室内にいた行政手続およびWeb閲覧中とみられる、 <span class="player-name" style="font-weight: bold;">ユーザー</span> さんが倒れているのが発見され、その場で死亡が確認された。死因は急性心不全とみられる。</p>
-                <p>発見時、部屋のドアや窓は内側からすべて施錠されており、完全な密室状態であった。争った形跡や遺書などは見つかっていない。</p>
-                <p>捜査員が部屋に突入した際、遺体の目の前にあったパソコンの画面には、**「すべての人型の腕の上下運動」が異常な速度で繰り返される不可解な映像**が流れ続けていたという。警察はネットを介した新型の特殊事件の可能性も視野に、慎重に捜査を進めている。</p>
-            </div>
-            <div class="news-btn-box">
-                <p class="disconnected-text">—— 通信が切断されました ——</p>
-            </div>
-        </div>
-    </div>
-
+        function goToNovelPage() {
+            const input = document.getElementById("username-input").value.trim();
+            if (!input) {
+                alert("ユーザー名を入力してください。");
+                return;
+            }
+            
+            // 入力された名前をブラウザのメモリ（localStorage）に保存（次のページに引き継ぐため）
+            localStorage.setItem("savedPlayerName", input);
+            
+            // 次の「novel.html」へページを丸ごと移動させる
+            window.location.href = "novel.html";
+        }
+    </script>
 </body>
 </html>
