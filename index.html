@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>小説投稿プラットフォーム「ヨムノベル」</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
 
@@ -16,7 +17,7 @@
             <p class="reg-sub">〜新時代の読書体験を、あなたに〜</p>
             <p>サービスを利用するためにユーザー名をご登録ください。</p>
             <input type="text" id="username-input" class="reg-input" placeholder="例：タロウ" maxlength="15">
-            <div id="btn-container"></div>
+            <button id="register-submit-btn" class="reg-btn" onclick="startRegistration()">登録して読み始める</button>
         </div>
     </div>
 
@@ -76,6 +77,5 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
 </body>
 </html>
