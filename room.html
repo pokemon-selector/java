@@ -6,75 +6,14 @@
     <title>幻想の逝き庭 - 個人小説サイト</title>
     <link rel="stylesheet" href="./style.css">
     <style>
-        /* --- ルーム専用：自作のオリジナル警告ポップアップ --- */
-        .custom-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); /* 戻れない絶望感を出すためにかなり暗めに */
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-        }
-        .custom-alert {
-            background: #111111; /* 警告画面は黒ベース */
-            border: 3px double #cc0000; /* 禍々しい二重の赤枠 */
-            padding: 35px;
-            max-width: 450px;
-            width: 85%;
-            text-align: center;
-            box-shadow: 0 0 25px rgba(204, 0, 0, 0.5);
-            font-family: "Noto Serif JP", serif;
-        }
-        .custom-alert-title {
-            color: #cc0000;
-            font-size: 1.3rem;
-            font-weight: bold;
+        /* 章のリスト項目。最初はプログラムで自動的に隠すため、基本は表示 */
+        .story-item {
             margin-bottom: 20px;
-            letter-spacing: 2px;
-        }
-        .custom-alert-text {
-            font-size: 1rem;
-            color: #dddddd;
-            margin-bottom: 30px;
-            line-height: 1.8;
-        }
-        .custom-alert-btn {
-            background: #222222;
-            color: #cc0000;
-            border: 1px solid #cc0000;
-            padding: 8px 30px;
-            font-size: 0.95rem;
-            cursor: pointer;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-        .custom-alert-btn:hover {
-            background: #cc0000;
-            color: #ffffff;
-            box-shadow: 0 0 10px #cc0000;
-        }
-
-        /* クリア済みの章の見た目を「既読・進入不可」っぽくする */
-        .novel-link.disabled-link {
-            color: #555555 !important;
-            text-decoration: line-through; /* 文字に打ち消し線を入れる */
-            cursor: not-allowed;
+            transition: all 0.5s ease;
         }
     </style>
 </head>
 <body id="room-body">
-
-    <div id="customAlertOverlay" class="custom-overlay">
-        <div class="custom-alert">
-            <div class="custom-alert-title">【 警告：アクセス拒否 】</div>
-            <div id="customAlertText" class="custom-alert-text">
-                この領域はすでに完全に汚染されています。<br>
-                一度崩壊した空間へ戻ることはできません。
-            </div>
-            <button class="custom-alert-btn" onclick="closeCustomAlert()">引き返す</button>
-        </div>
-    </div>
 
     <div class="site-wrapper">
         <div class="site-header">
@@ -93,21 +32,21 @@
             <h2 class="info-title">◆ 短編小説（連載一覧）</h2>
             <ul style="list-style: none; padding-left: 0; line-height: 2;">
                 
-                <li style="margin-bottom: 20px;">
-                    <a href="javascript:void(0);" onclick="checkStoryAccess('story1')" id="link-story1" class="novel-link">第一章「ついてくるもの」</a> 
-                    <span id="badge-story1" style="font-size: 0.8rem; margin-left: 10px;"></span>
+                <li id="item-story1" class="story-item">
+                    <a href="story1.html" class="novel-link">第一章「ついてくるもの」</a> 
+                    <span id="badge-story1" style="font-size: 0.8rem; margin-left: 10px; color: #0066cc;">【 未読 】</span>
                     <p style="font-size: 0.85rem; color: #666; margin: 5px 0 0 0;">夕暮れの帰り道。僕の後ろをぴったりと歩く、正体不明の影の正体とは……。</p>
                 </li>
 
-                <li style="margin-bottom: 20px;">
-                    <a href="javascript:void(0);" onclick="checkStoryAccess('story2')" id="link-story2" class="novel-link">第二章「バグと視線」</a> 
-                    <span id="badge-story2" style="font-size: 0.8rem; margin-left: 10px;"></span>
+                <li id="item-story2" class="story-item" style="display: none;">
+                    <a href="story2.html" class="novel-link">第二章「バグと視線」</a> 
+                    <span id="badge-story2" style="font-size: 0.8rem; margin-left: 10px; color: #0066cc;">【 未読 】</span>
                     <p style="font-size: 0.85rem; color: #666; margin: 5px 0 0 0;">スマートフォンの画面が真っ赤に染まる。バグの奥から誰かが見つめている。</p>
                 </li>
 
-                <li style="margin-bottom: 20px;">
-                    <a href="javascript:void(0);" onclick="checkStoryAccess('story3')" id="link-story3" class="novel-link">第三章「歪む空間」</a> 
-                    <span id="badge-story3" style="font-size: 0.8rem; margin-left: 10px;"></span>
+                <li id="item-story3" class="story-item" style="display: none;">
+                    <a href="story3.html" class="novel-link">第三章「歪む空間」</a> 
+                    <span id="badge-story3" style="font-size: 0.8rem; margin-left: 10px; color: #0066cc;">【 未読 】</span>
                     <p style="font-size: 0.85rem; color: #666; margin: 5px 0 0 0;">部屋全体がガタガタと悲鳴をあげる。この空間のどこかに、呪いの核がある。</p>
                 </li>
 
@@ -115,8 +54,23 @@
         </div>
     </div>
 
+    <button id="dev-reset-btn" onclick="devResetData()">
+        ⚙ データを初期化してテスト
+    </button>
+
+    <style>
+        #dev-reset-btn {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #333333; color: #ffffff; border: 1px solid #666666;
+            padding: 10px 15px; font-size: 0.85rem; cursor: pointer; border-radius: 5px;
+            z-index: 99999; font-family: sans-serif; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+        #dev-reset-btn:hover { background: #cc0000; border-color: #ff0000; }
+    </style>
+
     <script>
-        // ページが読み込まれた時に、クリア状況をチェックして見た目を変える
+        // ページ読み込み時に進行度をチェック
         window.onload = function() {
             updateRoomProgress();
         };
@@ -125,15 +79,32 @@
             const bodyEl = document.getElementById("room-body");
             const titleEl = document.getElementById("site-title-text");
 
-            // 各章のクリア判定（厳密に "true" の文字列と一致するかチェック）
+            // 各章のクリア状況を取得
             const c1 = localStorage.getItem("clear_story1") === "true";
             const c2 = localStorage.getItem("clear_story2") === "true";
             const c3 = localStorage.getItem("clear_story3") === "true";
 
-            // --- クリアバッジとリンクの見た目の変更 ---
-            setupLinkStatus("story1", c1);
-            setupLinkStatus("story2", c2);
-            setupLinkStatus("story3", c3);
+            // --- クリア状況に合わせた「出現」と「既読化」のコントロール ---
+
+            // 1章がクリアされている場合
+            if (c1) {
+                document.getElementById("badge-story1").innerText = "【 既読 】";
+                document.getElementById("badge-story1").style.color = "#888888";
+                document.getElementById("item-story2").style.display = "block"; // 2章を隠し部屋から出現させる
+            }
+
+            // 2章がクリアされている場合
+            if (c2) {
+                document.getElementById("badge-story2").innerText = "【 既読 】";
+                document.getElementById("badge-story2").style.color = "#888888";
+                document.getElementById("item-story3").style.display = "block"; // 3章を隠し部屋から出現させる
+            }
+
+            // 3章がクリアされている場合
+            if (c3) {
+                document.getElementById("badge-story3").innerText = "【 既読 】";
+                document.getElementById("badge-story3").style.color = "#888888";
+            }
 
             // --- 進行度によるサイトの闇堕ち演出 ---
             if (c3) {
@@ -143,95 +114,22 @@
                 bodyEl.className = "phase-2";
                 titleEl.style.color = "#cc0000";
             } else if (c1) {
-                // 1章だけクリアした状態の演出
                 bodyEl.className = "phase-1";
             } else {
-                // まだ何もクリアしていない時（初期状態）はクラスを消す
                 bodyEl.className = "";
                 titleEl.style.color = "";
             }
         }
 
-        // クリア済みの章をグレーアウト＆打ち消し線にする関数
-        function setupLinkStatus(storyId, isCleared) {
-            const linkEl = document.getElementById("link-" + storyId);
-            const badgeEl = document.getElementById("badge-" + storyId);
-            
-            if (isCleared) {
-                linkEl.classList.add("disabled-link"); // 進入不可の見た目にする
-                badgeEl.innerText = "【 既読 / 崩壊 】";
-                badgeEl.style.color = "#cc0000";
-                badgeEl.style.fontWeight = "bold";
-            } else {
-                badgeEl.innerText = "【 未読 】";
-                badgeEl.style.color = "#0066cc";
-                badgeEl.style.fontWeight = "normal";
-                linkEl.classList.remove("disabled-link");
+        // 開発用リセット関数
+        function devResetData() {
+            if (confirm("【開発者用確認】クリアデータをすべて初期化して、最初の状態に戻しますか？")) {
+                localStorage.clear();
+                location.reload(); // リロードすると、updateRoomProgressが走って再び2章・3章が隠れます
             }
-        }
-
-        // リンクをクリックした時の判定処理
-        function checkStoryAccess(storyId) {
-            const isCleared = localStorage.getItem("clear_" + storyId) === "true";
-
-            if (isCleared) {
-                // クリア済みなら「戻れない」という自作警告を出す
-                showCustomAlert();
-            } else {
-                // 未クリアならその章のページへ移動
-                window.location.href = storyId + ".html";
-            }
-        }
-
-        // オリジナル警告画面を表示
-        function showCustomAlert() {
-            document.getElementById("customAlertOverlay").style.display = "flex";
-        }
-
-        // 警告画面を閉じる
-        function closeCustomAlert() {
-            document.getElementById("customAlertOverlay").style.display = "none";
         }
     </script>
 
     <footer class="fiction-footer">※この物語はフィクションです。実在の人物・団体・事件等とは一切関係ありません。</footer>
-
-    <button id="dev-reset-btn" onclick="devResetData()">
-        ⚙ データを初期化してテスト
-    </button>
-
-    <style>
-        /* リセットボタンを右下に固定するデザイン */
-        #dev-reset-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #333333;
-            color: #ffffff;
-            border: 1px solid #666666;
-            padding: 10px 15px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            border-radius: 5px;
-            z-index: 99999; /* ポップアップよりも手前に表示 */
-            font-family: sans-serif;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: all 0.2s;
-        }
-        #dev-reset-btn:hover {
-            background: #cc0000; /* ホバーすると赤くなって警告感を出す */
-            border-color: #ff0000;
-        }
-    </style>
-
-    <script>
-        // ボタンが押されたらデータを消してリロードする関数
-        function devResetData() {
-            if (confirm("【開発者用確認】クリアデータをすべて初期化して、最初の状態に戻しますか？")) {
-                localStorage.clear(); // ブラウザの記憶を全消去
-                location.reload();    // ページを強制リロード
-            }
-        }
-    </script>
 </body>
 </html>
