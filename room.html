@@ -3,171 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>幻想の庭 - 個人小説サイト</title>
+    <title>幻想の逝き庭 - 個人小説サイト</title>
     <link rel="stylesheet" href="./style.css">
     <style>
-        /* --- 進行度によるサイトの汚染演出 --- */
-        
-        /* 段階1：ちょっと不穏 */
-        .phase-1 { background-color: #eeeade !important; }
-        .phase-1 .info-section { border-color: #cc0000; }
-
-        /* 段階2：ダークモード化（狂気・中） */
-        .phase-2 { background-color: #1a1a1a !important; color: #dddddd !important; }
-        .phase-2 .site-wrapper { background: #262626 !important; border-color: #444 !important; }
-        .phase-2 .site-title { color: #ff4444 !important; }
-        .phase-2 .site-subtitle { color: #aaa !important; }
-        .phase-2 .info-section { background: #1f1f1f !important; border-color: #ff4444 !important; color: #ccc !important; }
-        .phase-2 .info-title { color: #ff4444 !important; border-bottom-color: #444; }
-        .phase-2 .novel-link { color: #4488ff !important; }
-        .phase-2 .novel-story-desc { color: #999 !important; }
-
-        /* 段階3：赤黒いバグ（狂気・最大） */
-        .phase-3 { 
-            background-color: #0d0000 !important; 
-            color: #ff3333 !important;
-            animation: site-glitch 0.3s infinite alternate;
+        /* --- ルーム専用：自作のオリジナル警告ポップアップ --- */
+        .custom-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); /* 戻れない絶望感を出すためにかなり暗めに */
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
         }
-        .phase-3 .site-wrapper { background: #000000 !important; border-color: #ff0000 !important; box-shadow: 0 0 20px rgba(255,0,0,0.3) !important; }
-        .phase-3 .site-title { color: #ff0000 !important; text-shadow: 0 0 5px #ff0000; }
-        .phase-3 .site-subtitle { color: #ff6666 !important; }
-        .phase-3 .info-section { background: #1a0000 !important; border-color: #ff0000 !important; color: #ff8888 !important; }
-        .phase-3 .info-title { color: #ff0000 !important; }
-        .phase-3 .novel-link { color: #ff3333 !important; text-shadow: 0 0 3px #ff0000; }
-        .phase-3 .novel-story-desc { color: #ffaaaa !important; }
-        .phase-3 .novel-list-title { border-left-color: #ff0000; }
+        .custom-alert {
+            background: #111111; /* 警告画面は黒ベース */
+            border: 3px double #cc0000; /* 禍々しい二重の赤枠 */
+            padding: 35px;
+            max-width: 450px;
+            width: 85%;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(204, 0, 0, 0.5);
+            font-family: "Noto Serif JP", serif;
+        }
+        .custom-alert-title {
+            color: #cc0000;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        .custom-alert-text {
+            font-size: 1rem;
+            color: #dddddd;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        .custom-alert-btn {
+            background: #222222;
+            color: #cc0000;
+            border: 1px solid #cc0000;
+            padding: 8px 30px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        .custom-alert-btn:hover {
+            background: #cc0000;
+            color: #ffffff;
+            box-shadow: 0 0 10px #cc0000;
+        }
 
-        @keyframes site-glitch {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(1px, -1px); }
+        /* クリア済みの章の見た目を「既読・進入不可」っぽくする */
+        .novel-link.disabled-link {
+            color: #555555 !important;
+            text-decoration: line-through; /* 文字に打ち消し線を入れる */
+            cursor: not-allowed;
         }
     </style>
 </head>
-<body id="site-body" class="phase-0">
+<body id="room-body">
+
+    <div id="customAlertOverlay" class="custom-overlay">
+        <div class="custom-alert">
+            <div class="custom-alert-title">【 警告：アクセス拒否 】</div>
+            <div id="customAlertText" class="custom-alert-text">
+                この領域はすでに完全に汚染されています。<br>
+                一度崩壊した空間へ戻ることはできません。
+            </div>
+            <button class="custom-alert-btn" onclick="closeCustomAlert()">引き返す</button>
+        </div>
+    </div>
 
     <div class="site-wrapper">
         <div class="site-header">
-            <h1 class="site-title" id="main-title">幻想の庭</h1>
+            <h1 class="site-title" id="site-title-text">幻想の逝き庭</h1>
             <p class="site-subtitle">管理人：ヨム / オンライン小説書きの個人創作サイトです。</p>
         </div>
 
         <div class="info-section">
-            <div class="info-title" id="info-header">📌 更新履歴 & 雑記</div>
-            <p id="info-text" style="margin: 5px 0 0 0;">
-                ようこそ、<span id="player-name" style="font-weight: bold;">ゲスト</span>さん。まったりとホラーや不思議な短編小説を書いています。感想などいただけると励みになります！
+            <h2 class="info-title">📌 管理人から緊急の連絡</h2>
+            <p class="info-p" style="color: #cc0000; font-weight: bold;">
+                最近、サイトのデータが一部破損しているようです。不可解な文字列を見つけても、決して読まないでください。
             </p>
         </div>
 
-        <div class="novel-list-title">◆ 短編小説（連載一覧）</div>
+        <div class="novel-list-section">
+            <h2 class="info-title">◆ 短編小説（連載一覧）</h2>
+            <ul style="list-style: none; padding-left: 0; line-height: 2;">
+                
+                <li style="margin-bottom: 20px;">
+                    <a href="javascript:void(0);" onclick="checkStoryAccess('story1')" id="link-story1" class="novel-link">第一章「ついてくるもの」</a> 
+                    <span id="badge-story1" style="font-size: 0.8rem; margin-left: 10px;"></span>
+                    <p style="font-size: 0.85rem; color: #666; margin: 5px 0 0 0;">夕暮れの帰り道。僕の後ろをぴったりと歩く、正体不明の影の正体とは……。</p>
+                </li>
 
-        <div class="novel-container-list">
-            
-            <div class="novel-item" id="item-1" style="display: block;">
-                <div class="novel-item-header">
-                    <a href="story1.html" class="novel-link">第一章「ついてくるもの」</a>
-                    <span class="status-tag" id="tag-1">未読</span>
-                </div>
-                <p class="novel-story-desc">夕暮れの帰り道。僕の後ろをぴったりと歩く、正体不明の影の正体とは……。</p>
-            </div>
+                <li style="margin-bottom: 20px;">
+                    <a href="javascript:void(0);" onclick="checkStoryAccess('story2')" id="link-story2" class="novel-link">第二章「バグと視線」</a> 
+                    <span id="badge-story2" style="font-size: 0.8rem; margin-left: 10px;"></span>
+                    <p style="font-size: 0.85rem; color: #666; margin: 5px 0 0 0;">スマートフォンの画面が真っ赤に染まる。バグの奥から誰かが見つめている。</p>
+                </li>
 
-            <div class="novel-item" id="item-2" style="display: none;">
-                <div class="novel-item-header">
-                    <a href="story2.html" class="novel-link">第二章「バグと視線」</a>
-                    <span class="status-tag" id="tag-2">未読</span>
-                </div>
-                <p class="novel-story-desc">スマートフォンの画面が真っ赤に染まる。バグの奥から誰かが見つめている。</p>
-            </div>
+                <li style="margin-bottom: 20px;">
+                    <a href="javascript:void(0);" onclick="checkStoryAccess('story3')" id="link-story3" class="novel-link">第三章「歪む空間」</a> 
+                    <span id="badge-story3" style="font-size: 0.8rem; margin-left: 10px;"></span>
+                    <p style="font-size: 0.85rem; color: #666; margin: 5px 0 0 0;">部屋全体がガタガタと悲鳴をあげる。この空間のどこかに、呪いの核がある。</p>
+                </li>
 
-            <div class="novel-item" id="item-3" style="display: none;">
-                <div class="novel-item-header">
-                    <a href="story3.html" class="novel-link">第三章「歪む空間」</a>
-                    <span class="status-tag" id="tag-3">未読</span>
-                </div>
-                <p class="novel-story-desc">部屋全体がガタガタと悲鳴をあげる。この空間のどこかに、呪いの核がある。</p>
-            </div>
-
-            <div class="novel-item" id="item-4" style="display: none;">
-                <div class="novel-item-header">
-                    <a href="story4.html" class="novel-link">第四章「無限の警告」</a>
-                    <span class="status-tag" id="tag-4">未読</span>
-                </div>
-                <p class="novel-story-desc">画面を埋め尽くすメッセージ。システムからの警告は、一体誰の声なのか。</p>
-            </div>
-
-            <div class="novel-item" id="item-5" style="display: none;">
-                <div class="novel-item-header">
-                    <a href="story5.html" class="novel-link">最終章「最後の対価」</a>
-                    <span class="status-tag" id="tag-5">未読</span>
-                </div>
-                <p class="novel-story-desc">もう終わりだ。迫りくる黒い影。儀式を終わらせるために、あなたの名前を……。</p>
-            </div>
-
+            </ul>
         </div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const savedName = localStorage.getItem("savedPlayerName") || "ゲスト";
-            document.getElementById("player-name").innerText = savedName;
+        // ページが読み込まれた時に、クリア状況をチェックして見た目を変える
+        window.onload = function() {
+            updateRoomProgress();
+        };
 
+        function updateRoomProgress() {
+            const bodyEl = document.getElementById("room-body");
+            const titleEl = document.getElementById("site-title-text");
+
+            // 各章のクリア判定
             const c1 = localStorage.getItem("clear_story1") === "true";
             const c2 = localStorage.getItem("clear_story2") === "true";
             const c3 = localStorage.getItem("clear_story3") === "true";
-            const c4 = localStorage.getItem("clear_story4") === "true";
-            const c5 = localStorage.getItem("clear_story5") === "true";
 
-            // ステータスタグの更新
-            const clears = [c1, c2, c3, c4, c5];
-            clears.forEach((cleared, index) => {
-                const num = index + 1;
-                const tag = document.getElementById(`tag-${num}`);
-                if (tag && cleared) {
-                    tag.innerText = "読了";
-                    tag.classList.add("cleared");
-                }
-            });
+            // --- クリアバッジとリンクの見た目の変更 ---
+            setupLinkStatus("story1", c1);
+            setupLinkStatus("story2", c2);
+            setupLinkStatus("story3", c3);
 
-            // 段階解放
-            if (c1) document.getElementById("item-2").style.display = "block";
-            if (c2) document.getElementById("item-3").style.display = "block";
-
-            // 中間ニュースへの強制移動
-            if (c1 && c2 && c3 && localStorage.getItem("seen_mid_news") !== "true") {
-                localStorage.setItem("seen_mid_news", "true");
-                window.location.href = "news1.html";
-                return;
-            }
-
-            // 後半の解放
-            if (localStorage.getItem("seen_mid_news") === "true") {
-                document.getElementById("item-4").style.display = "block";
-                if (c4) document.getElementById("item-5").style.display = "block";
-            }
-
-            // --- 進行度による「個人サイトの狂気」演出切り替え ---
-            const bodyEl = document.getElementById("site-body");
-            const infoHeader = document.getElementById("info-header");
-            const infoText = document.getElementById("info-text");
-            const mainTitle = document.getElementById("main-title");
-
-            if (localStorage.getItem("seen_mid_news") === "true") {
-                // 後半戦（赤黒バグ）
+            // --- 進行度によるサイトの闇堕ち演出（前回の流用） ---
+            if (c3) {
                 bodyEl.className = "phase-3";
-                mainTitle.innerText = "死 亡 サイト";
-                infoHeader.innerText = "🚨 警 告 🚨";
-                infoText.innerHTML = "みつかったみつかったみつかったみつかったみつかったみつかったみつかったみつかったみつかった";
-            } else if (c2) {
-                // 2章クリア（ダークモード・不穏）
+                titleEl.innerText = "幻想の逝き庭";
+            } else if (c1 || c2) {
                 bodyEl.className = "phase-2";
-                mainTitle.innerText = "幻想の逝き庭";
-                infoHeader.innerText = "📌 管理人から緊急の連絡";
-                infoText.innerText = "最近、サイトのデータが一部破損しているようです。不可解な文字列を見つけても、決して読まないでください。";
-            } else if (c1) {
-                // 1章クリア（ちょっと変）
-                bodyEl.className = "phase-1";
-                infoText.innerHTML = "ようこそ、" + savedName + "さん。……さっきから、部屋の外で変な物音が聞こえる気がするんです。気のせいだといいんですが。";
+                titleEl.style.color = "#cc0000";
             }
-        });
+        }
+
+        // クリア済みの章をグレーアウト＆打ち消し線にする関数
+        function setupLinkStatus(storyId, isCleared) {
+            const linkEl = document.getElementById("link-" + storyId);
+            const badgeEl = document.getElementById("badge-" + storyId);
+            
+            if (isCleared) {
+                linkEl.classList.add("disabled-link"); // 進入不可の見た目にする
+                badgeEl.innerText = "【 既読 / 崩壊 】";
+                badgeEl.style.color = "#cc0000";
+                badgeEl.style.fontWeight = "bold";
+            } else {
+                badgeEl.innerText = "【 未読 】";
+                badgeEl.style.color = "#0066cc";
+            }
+        }
+
+        // リンクをクリックした時の判定処理
+        function checkStoryAccess(storyId) {
+            const isCleared = localStorage.getItem("clear_" + storyId) === "true";
+
+            if (isCleared) {
+                // クリア済みなら「戻れない」という自作警告を出す
+                showCustomAlert();
+            } else {
+                // 未クリアならその章のページへ移動
+                window.location.href = storyId + ".html";
+            }
+        }
+
+        // オリジナル警告画面を表示
+        function showCustomAlert() {
+            document.getElementById("customAlertOverlay").style.display = "flex";
+        }
+
+        // 警告画面を閉じる
+        function closeCustomAlert() {
+            document.getElementById("customAlertOverlay").style.display = "none";
+        }
     </script>
 
     <footer class="fiction-footer">※この物語はフィクションです。実在の人物・団体・事件等とは一切関係ありません。</footer>
