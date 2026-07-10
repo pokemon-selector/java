@@ -3,53 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ついてくるもの - 幻想の庭</title>
+    <title>第一章「ついてくるもの」 - ヨムノベル</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
-    <nav style="padding: 15px 30px; background: transparent; text-align: left;">
-        <a href="room.html" style="color: #666; text-decoration: none; font-size: 0.9rem;">◁ 戻る</a>
+    <nav>
+        <div class="nav-logo">■ ヨムノベル (閲覧モード)</div>
+        <div class="user-badge"><a href="room.html" style="color: #333; text-decoration: none;">◁ 部屋に戻る</a></div>
     </nav>
 
-    <div class="novel-container" style="max-width: 600px; margin: 0 auto; padding: 20px;">
-        <div class="novel-title" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 30px; text-align: center;">第一章「ついてくるもの」</div>
+    <div class="site-wrapper">
+        <div class="site-header">
+            <h1 class="site-title">第一章「ついてくるもの」</h1>
+        </div>
         
         <div id="novel-body-text">
-            <p class="novel-p">あの記、僕は見てはいけないものを見た。夕暮れの学校の帰り道、細い路地の奥に、ウズくまる影があった。</p>
-            <p class="novel-p">影は、こちらをじっと見つめている気がした。怖くなって走って逃げたが、足音がピッタリとしがみつく付いてくる。</p>
+            <p class="novel-p">灰色に濁った空から、冷たい雨が<span class="vibrate-text">ウ</span>つ。</p>
+            <p class="novel-p">傘を叩く単調な音が、誰もいない夜の帰り道をいっそう孤独にさせていた。</p>
             
-            <p class="novel-p">
-                誰かが、僕のログを、僕の背中を、ずっと覗いている。
-                <span class="vibrate-text">ウ</span>
-                <span class="vibrate-text">シ</span>
-                <span class="vibrate-text">ロ</span>
-                <span class="vibrate-text">ウ</span>
-                。
-            </p>
+            <p class="novel-p">街灯が<span class="vibrate-text">シ</span>ずかに明滅する高架下を通り抜けた瞬間、背後の暗闇から「びちょ、びちょ」と濡れた靴音が聞こえた気がして、僕は思わず足を止める。</p>
             
-            <p class="novel-p">息を切らして部屋に飛び込み、鍵を閉めた。しかし、部屋の隅から細い声が聞こえる。気付けば、僕のウエに、何かがいる。</p>
+            <p class="novel-p">恐る恐る振り返っても、そこにはただ夜の静寂と、冷え切ったアスファルトが広がっているだ<span class="vibrate-text">ロ</span>う。</p>
+            <p class="novel-p">街灯の光に照らされた自分の影だけが、不自然に長く伸びていた。</p>
+            
+            <p class="novel-p">気のせいだ、と自分に言い聞かせて歩みを早める。</p>
+            <p class="novel-p">だけど、耳を澄まさずとも、確実にその足音が近づいているのが分かった。濡れた音が、すぐ耳元で弾ける。</p>
+            
+            <p class="novel-p">逃げ出そうと一歩を踏み出そうとしたが、身体がすくんで動かない。冷たい手のような感触が、そっと僕の肩に触れた。</p>
+            
+            <p class="novel-p">誰かが、僕の背中を、ずっと覗いてる。</p>
         </div>
 
-        <div class="ans-box" style="margin-top: 60px; border-top: 1px dotted #ccc; padding-top: 30px; text-align: center;">
-            <p style="font-size: 0.9rem; color: #555; margin-bottom: 15px;">この小説に潜む異変を解決するキーワードを入力してください</p>
-            <input type="text" id="solve-input" class="ans-input" placeholder="キーワード" style="padding: 5px 10px; font-family: inherit; border: 1px solid #b5ab93;">
-            <button class="ans-btn" onclick="checkAnswer1()" style="padding: 4px 15px; font-family: inherit; background: #f4ece1; border: 1px solid #b5ab93; cursor: pointer;">送信</button>
+        <div class="ans-box" style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px dotted #ccc;">
+            <p id="hint-label" style="font-weight: bold;">この章に隠された「キーワード」を入力しろ</p>
+            <input type="text" id="solve-input" class="ans-input" placeholder="キーワード" style="padding: 6px 10px; font-family: inherit;">
+            <button class="ans-btn" onclick="checkAnswer1()" style="padding: 5px 15px; cursor: pointer;">送信</button>
         </div>
     </div>
 
     <script>
         function checkAnswer1() {
             const answer = document.getElementById("solve-input").value.trim();
-            // 正解は「ウシロウ（またはウシロ）」
-            if (answer === "ウシロウ" || answer === "ウシロ") {
-                alert("異変が収まりました。");
-                // ブラウザにクリア情報を保存
+
+            if (answer === "ウシロ") {
+                alert("正解！背後の気配が一瞬、遠のいた気がした。");
+                
+                // 1章クリアをブラウザに記憶
                 localStorage.setItem("clear_story1", "true");
+                
                 // マイページ（room.html）に戻る
                 window.location.href = "room.html";
             } else {
-                alert("何も起きない。何かが違うようだ。");
+                alert("違う。何かが確実に、近づいてきている……。");
             }
         }
     </script>
