@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J-BREAKING NEWS - 【速報】</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="news-body-bg">
+
+    <div class="news-wrapper">
+        <div class="news-header">J-BREAKING NEWS</div>
+        
+        <div class="news-body">
+            <div class="news-title final-alert" style="color: #cc0000; font-weight: bold;">
+                【速報】本日午後、自宅で死亡している <span id="final-player-name">ユーザー</span> さんが発見される
+            </div>
+            <div class="news-date">2026年7月10日 15:45配信</div>
+            
+            <div class="news-content">
+                <p>本日午後3時すぎ、警察に通報があり、室内にいた行政手続およびWeb閲覧中とみられる、 <span class="insert-name" style="font-weight: bold;">ユーザー</span> さんが倒れているのが発見され、その場で死亡が確認された。死因は急性心不全とみられる。</p>
+                <p>発見時、部屋のドアや窓は内側からすべて施錠されており、完全な密室状態であった。争った形跡や遺書などは見つかっていない。</p>
+                <p>捜査員が部屋に突入した際、遺体の目の前にあったパソコンの画面には、**「すべての人型の腕の上下運動」が異常な速度で繰り返される不可解な映像**が流れ続けていたという。警察はネットを介した新型の特殊事件の可能性も視野に、慎重に捜査を進めている。</p>
+            </div>
+            
+            <div class="news-btn-box" style="margin-top: 50px; border-top: 1px dashed #ccc; padding-top: 20px;">
+                <p class="disconnected-text" style="color: #888; font-family: monospace; font-size: 0.9rem; letter-spacing: 2px;">
+                    —— 通信が切断されました ——
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // 最初に登録した名前を取得してニュースに埋め込む
+            const savedName = localStorage.getItem("savedPlayerName") || "ゲスト";
+            
+            document.getElementById("final-player-name").innerText = savedName;
+            
+            const nameContainers = document.querySelectorAll(".insert-name");
+            nameContainers.forEach(el => el.innerText = savedName);
+            
+            // ゲームが終了したため、必要に応じてここでクリア状況などをリセットしてもOKです
+            // localStorage.clear(); // 完全に最初からやり直させたい場合はこのコメントを外す
+        });
+    </script>
+</body>
+</html>
