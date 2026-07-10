@@ -109,3 +109,23 @@ body {
     font-size: 0.8rem;
     clear: both;
 }
+
+/* --- 異変2（story2.html）用の赤文字バグ演出 --- */
+.corrupted-text {
+    color: #cc0000 !important; /* 文字を赤くする */
+    font-family: monospace;
+    letter-spacing: 2px;
+    background-color: #cc0000; /* ★文字と同じ赤を背景に塗ることで、一見読めなくする */
+    user-select: text;
+}
+
+/* マウスでドラッグ（選択）した瞬間の見た目 */
+.corrupted-text::selection {
+    background: #000000 !important; /* 選択すると背景が黒になる */
+    color: #ffffff !important;      /* 選択すると文字が白になって浮き出る */
+}
+/* スマホなどのタップ選択用 */
+.corrupted-text::-moz-selection {
+    background: #000000 !important;
+    color: #ffffff !important;
+}
