@@ -11,24 +11,21 @@
             transition: all 0.5s ease;
         }
 
-        /* --- 復活：背景がどんどん黒くなっていく闇堕ち演出用のスタイル --- */
+        /* 背景がどんどん黒くなっていく闇堕ち演出用のスタイル */
         body {
             transition: background-color 1.5s ease, color 1.5s ease;
         }
-        /* 1章クリア時：少しだけ不穏な色（任意でstyle.css側と連動） */
         body.phase-1 {
             background-color: #f4edd2 !important;
         }
-        /* 2章クリア時：さらに暗く、赤黒い警告色へ */
         body.phase-2 {
             background-color: #e5dcb8 !important;
         }
-        /* 3章クリア後：完全な闇。文字も赤黒く染まる */
+        /* 4章解放以降：完全な闇 */
         body.phase-3 {
             background-color: #111111 !important;
             color: #888888 !important;
         }
-        /* 3章クリア後の枠線の調整 */
         body.phase-3 .site-wrapper, 
         body.phase-3 .info-section {
             background: #1a1a1a !important;
@@ -58,7 +55,7 @@
                 <li id="item-story1" class="story-item">
                     <a href="story1.html" class="novel-link">第一章「ついてくるもの」</a> 
                     <span id="badge-story1" style="font-size: 0.8rem; margin-left: 10px; color: #0066cc;">【 未読 】</span>
-                    <p style="font-size: 0.85rem; color: #666; margin: 5px 0 0 0;">夕暮れの帰り道。僕の後ろをぴったりと歩く、正体不明 of 影の正体とは……。</p>
+                    <p style="font-size: 0.85rem; color: #666; margin: 5px 0 0 0;">夕暮れの帰り道。僕の後ろをぴったりと歩く、正体不明の影の正体とは……。</p>
                 </li>
 
                 <li id="item-story2" class="story-item" style="display: none;">
@@ -71,6 +68,18 @@
                     <a href="story3.html" class="novel-link">第三章「歪む空間」</a> 
                     <span id="badge-story3" style="font-size: 0.8rem; margin-left: 10px; color: #0066cc;">【 未読 】</span>
                     <p style="font-size: 0.85rem; color: #666; margin: 5px 0 0 0;">部屋全体がガタガタと悲鳴をあげる。この空間のどこかに、呪いの核がある。</p>
+                </li>
+
+                <li id="item-story4" class="story-item" style="display: none;">
+                    <a href="story4.html" class="novel-link" style="color: #cc0000; font-weight: bold;">第四章「無限の警告」</a> 
+                    <span id="badge-story4" style="font-size: 0.8rem; margin-left: 10px; color: #cc0000; font-weight: bold;">【 警告 】</span>
+                    <p style="font-size: 0.85rem; color: #999; margin: 5px 0 0 0;">あｓｄｌｋｊｆｈあｓｄｌｋｊｆｈたすけてたすけてたすけてたすけてたすけて</p>
+                </li>
+
+                <li id="item-story5" class="story-item" style="display: none;">
+                    <a href="story5.html" class="novel-link" style="color: #660000; font-weight: bold; letter-spacing: 4px;">第五章「？？？」</a> 
+                    <span id="badge-story5" style="font-size: 0.8rem; margin-left: 10px; color: #660000; font-weight: bold;">【 終 焉 】</span>
+                    <p style="font-size: 0.85rem; color: #777; margin: 5px 0 0 0;">・・・・・・・・・・・・お前が、殺したんだ・・・・・・・・・・・・</p>
                 </li>
 
             </ul>
@@ -103,42 +112,43 @@
             const c1 = localStorage.getItem("clear_story1") === "true";
             const c2 = localStorage.getItem("clear_story2") === "true";
             const c3 = localStorage.getItem("clear_story3") === "true";
+            const c4 = localStorage.getItem("clear_story4") === "true"; // 4章クリア判定
+            const c5 = localStorage.getItem("clear_story5") === "true"; // 5章クリア判定
+            const isRedirected = localStorage.getItem("news_redirected") === "true";
 
-            // --- 復活①：3章クリア直後の「ニュース画面への拉致」システム ---
-            // 3章をクリアした直後（まだニュースを見ていない場合）のみ、即座にnews1.htmlへ飛ばす
-            if (c3 && localStorage.getItem("news_redirected") !== "true") {
-                localStorage.setItem("news_redirected", "true"); // 1回だけ飛ばすためのフラグ
+            // 3章クリア直後、ニュースをまだ見ていなければ拉致
+            if (c3 && !isRedirected) {
+                localStorage.setItem("news_redirected", "true");
                 window.location.href = "news1.html";
-                return; // 処理を中断して遷移
+                return;
             }
 
-            // --- 復活②：進行度に応じて背景がどんどん黒くなる闇堕ち演出 ---
-            if (c3) {
-                bodyEl.className = "phase-3"; // 画面全体が真っ黒に崩壊
-                titleEl.innerText = "幻想の逝き庭";
-                commentEl.innerHTML = "アクセスしてはいけない。もう手遅れだ。すべてが壊れていく。";
+            // --- 進行度に応じた背景色とコメントの調整 ---
+            if (c4 || isRedirected) {
+                // ニュースから戻った（4章・5章のフェーズ）
+                bodyEl.className = "phase-3";
+                titleEl.innerText = "ゲんソうノせきにわ"; 
+                commentEl.innerHTML = "アくセすシてハいケない。まウておくれだ。すベてガこわｌれｔｅ。";
                 commentEl.style.color = "#cc0000";
             } 
             else if (c2) {
-                bodyEl.className = "phase-2"; // 背景がさらに怪しい色に変化＋タイトルが赤文字
+                bodyEl.className = "phase-2";
                 titleEl.style.color = "#cc0000";
-                commentEl.innerHTML = "警告：サイト内のテキストが勝気に書き換わる深刻なバグが発生しています。現在原因究明中ですが、体調に異変を感じた方はすぐにブラウザを閉じてください。";
+                commentEl.innerHTML = "警告：サイト内のテキストが勝手に書き換わる深刻なバグが発生しています。現在原因究明中ですが、体調に異変を感じた方はすぐにブラウザを閉じてください。";
                 commentEl.style.color = "#cc0000";
             } 
             else if (c1) {
-                bodyEl.className = "phase-1"; // 背景が1段階目の不穏な色に変化
-                titleEl.style.color = "";
+                bodyEl.className = "phase-1";
                 commentEl.innerHTML = "お知らせ：最近、一部の読者様から「小説を読んでいる最中に画面がおかしくなる」「視線を感じる」との報告を受けております。当サイトは安全なスクリプトのみを使用しておりますのでご安心ください。";
                 commentEl.style.color = "#555555";
             } 
             else {
-                bodyEl.className = ""; // 初期状態の綺麗なクリーム色
-                titleEl.style.color = "";
+                bodyEl.className = "";
                 commentEl.innerHTML = "管理人からのお知らせ：短編ホラー小説の不定期連載を開始しました！まずは第一章からお楽しみください。感想は掲示板までどうぞ。";
                 commentEl.style.color = "#333333";
             }
 
-            // --- 章の出現＆バッジ処理 ---
+            // --- 各章の出現＆既読バッジ制御 ---
             if (c1) {
                 document.getElementById("badge-story1").innerText = "【 既読 】";
                 document.getElementById("badge-story1").style.color = "#888888";
@@ -153,9 +163,26 @@
                 document.getElementById("badge-story3").innerText = "【 既読 】";
                 document.getElementById("badge-story3").style.color = "#888888";
             }
+            
+            // ニュースを見て戻ってきたら4章が出現
+            if (isRedirected) {
+                document.getElementById("item-story4").style.display = "block";
+            }
+
+            // ★4章もクリアされたら、4章を既読にして、ついに5章を解放！！
+            if (c4) {
+                document.getElementById("badge-story4").innerText = "【 既読 / 解放 】";
+                document.getElementById("badge-story4").style.color = "#888888";
+                document.getElementById("item-story5").style.display = "block"; // 5章が出現！
+            }
+
+            // 5章もクリアされたら既読にする
+            if (c5) {
+                document.getElementById("badge-story5").innerText = "【 既読 / 終焉 】";
+                document.getElementById("badge-story5").style.color = "#888888";
+            }
         }
 
-        // 開発用リセット（ニュースの拉致フラグも一緒に初期化）
         function devResetData() {
             if (confirm("【開発者用確認】クリアデータをすべて初期化して、最初の状態に戻しますか？")) {
                 localStorage.clear();
