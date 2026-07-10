@@ -5,6 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>第一章「ついてくるもの」 - ヨムノベル</title>
     <link rel="stylesheet" href="./style.css">
+    <style>
+        /* --- 自作のオリジナル警告ポップアップ用デザイン --- */
+        .custom-overlay {
+            display: none; /* 最初は隠しておく */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* 背景を暗く */
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        .custom-alert {
+            background: #ffffff;
+            border: 2px solid #cc0000; /* ホラー感を出す赤枠 */
+            padding: 30px;
+            max-width: 400px;
+            width: 80%;
+            border-radius: 4px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            font-family: "Noto Serif JP", serif;
+        }
+        .custom-alert-text {
+            font-size: 1.05rem;
+            color: #222;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        .custom-alert-btn {
+            background: #cc0000;
+            color: #fff;
+            border: none;
+            padding: 8px 25px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border-radius: 3px;
+            font-family: inherit;
+        }
+        .custom-alert-btn:hover {
+            background: #a00000;
+        }
+    </style>
 </head>
 <body>
 
@@ -12,6 +54,13 @@
         <div class="nav-logo">■ ヨムノベル (閲覧モード)</div>
         <div class="user-badge"><a href="room.html" style="color: #333; text-decoration: none;">◁ 部屋に戻る</a></div>
     </nav>
+
+    <div id="customAlertOverlay" class="custom-overlay">
+        <div class="custom-alert">
+            <div id="customAlertText" class="custom-alert-text">ここにメッセージが入ります</div>
+            <button class="custom-alert-btn" onclick="closeCustomAlert()">OK</button>
+        </div>
+    </div>
 
     <div class="site-wrapper">
         <div class="site-header">
@@ -21,17 +70,12 @@
         <div id="novel-body-text">
             <p class="novel-p">灰色に濁った空から、冷たい雨が<span class="vibrate-text">ウ</span>つ。</p>
             <p class="novel-p">傘を叩く単調な音が、誰もいない夜の帰り道をいっそう孤独にさせていた。</p>
-            
             <p class="novel-p">街灯が<span class="vibrate-text">シ</span>ずかに明滅する高架下を通り抜けた瞬間、背後の暗闇から「びちょ、びちょ」と濡れた靴音が聞こえた気がして、僕は思わず足を止める。</p>
-            
             <p class="novel-p">恐る恐る振り返っても、そこにはただ夜の静寂と、冷え切ったアスファルトが広がっているだ<span class="vibrate-text">ロ</span>う。</p>
             <p class="novel-p">街灯の光に照らされた自分の影だけが、不自然に長く伸びていた。</p>
-            
             <p class="novel-p">気のせいだ、と自分に言い聞かせて歩みを早める。</p>
             <p class="novel-p">だけど、耳を澄まさずとも、確実にその足音が近づいているのが分かった。濡れた音が、すぐ耳元で弾ける。</p>
-            
             <p class="novel-p">逃げ出そうと一歩を踏み出そうとしたが、身体がすくんで動かない。冷たい手のような感触が、そっと僕の肩に触れた。</p>
-            
             <p class="novel-p">誰かが、僕の背中を、ずっと覗いてる。</p>
         </div>
 
@@ -43,19 +87,34 @@
     </div>
 
     <script>
+        let isCorrectAnswer = false;
+
+        // alert() の代わりにこの関数を呼び出す
+        function showCustomAlert(message, isSuccess = false) {
+            document.getElementById("customAlertText").innerText = message;
+            document.getElementById("customAlertOverlay").style.display = "flex";
+            isCorrectAnswer = isSuccess;
+        }
+
+        // OKボタンを押した時の処理
+        function closeCustomAlert() {
+            document.getElementById("customAlertOverlay").style.display = "none";
+            // 正解だった場合のみ、ポップアップが閉じた後に画面遷移する
+            if (isCorrectAnswer) {
+                window.location.href = "room.html";
+            }
+        }
+
         function checkAnswer1() {
             const answer = document.getElementById("solve-input").value.trim();
 
             if (answer === "ウシロ") {
-                alert("正解！背後の気配が一瞬、遠のいた気がした。");
-                
-                // 1章クリアをブラウザに記憶
+                // 正解の演出を自作ポップアップで表示
                 localStorage.setItem("clear_story1", "true");
-                
-                // マイページ（room.html）に戻る
-                window.location.href = "room.html";
+                showCustomAlert("正解！背後の気配が一瞬、遠のいた気がした。", true);
             } else {
-                alert("違う。何かが確実に、近づいてきている……。");
+                // 不正解の演出を自作ポップアップで表示
+                showCustomAlert("違う。何かが確実に、近づいてきている……。", false);
             }
         }
     </script>
