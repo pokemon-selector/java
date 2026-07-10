@@ -3,42 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>小説投稿プラットフォーム「ヨムノベル」</title>
+    <title>新規登録 - ヨムノベル</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="register-body">
+<body class="register-page-body" style="background: #f8f9fa; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0;">
 
-    <div class="reg-container">
-        <div class="reg-box">
-            <div class="reg-logo">YomuNovel</div>
-            <p class="reg-sub">〜新時代の読書体験を、あなたに〜</p>
-            <p>サービスを利用するためにユーザー名をご登録ください。</p>
+    <div class="reg-container" style="width: 100%; max-width: 400px; padding: 20px;">
+        <div class="reg-box" style="background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;">
+            <div class="reg-logo" style="font-size: 1.8rem; font-weight: bold; color: #1a73e8; margin-bottom: 10px;">YomuNovel</div>
+            <p class="reg-sub" style="color: #1a73e8; font-weight: bold; font-size: 0.9rem; margin-bottom: 5px;">〜新時代の読書体験を、あなたに〜</p>
+            <p style="font-size: 0.9rem; color: #666; margin-bottom: 25px;">サービスを利用するためにユーザー名をご登録ください。</p>
             
-            <input type="text" id="username-input" class="reg-input" placeholder="例：タロウ" maxlength="15">
-            <button id="register-submit-btn" class="reg-btn" onclick="goToNovelPage()">登録して読み始める</button>
+            <input type="text" id="username-input" class="reg-input" placeholder="例：タロウ" maxlength="15" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; margin-bottom: 20px; outline: none; box-sizing: border-box;">
+            
+            <button id="register-submit-btn" class="reg-btn" onclick="goToNovelRoom()" style="width: 100%; padding: 12px; background: #1a73e8; color: white; border: none; border-radius: 4px; font-size: 1rem; font-weight: bold; cursor: pointer;">登録して読み始める</button>
         </div>
     </div>
 
     <script>
-        // Enterキーでも進めるようにする設定
-        document.getElementById("username-input").addEventListener("keypress", (e) => {
-            if (e.key === "Enter") goToNovelPage();
+        // ページが読み込まれた際、過去のクリア状況などを一度リセットして最初から遊べるようにする
+        document.addEventListener("DOMContentLoaded", () => {
+            localStorage.clear();
         });
 
-        function goToNovelPage() {
+        // Enterキーが押されたときもボタンクリックと同じ動きをする設定
+        document.getElementById("username-input").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") goToNovelRoom();
+        });
+
+        function goToNovelRoom() {
             const input = document.getElementById("username-input").value.trim();
+            
             if (!input) {
                 alert("ユーザー名を入力してください。");
                 return;
             }
             
-            // 入力された名前をブラウザのメモリ（localStorage）に保存（次のページに引き継ぐため）
+            // 入力されたユーザー名をブラウザに一時保存（room.html や news2.html で呼び出すため）
             localStorage.setItem("savedPlayerName", input);
             
-            // 次の「novel.html」へページを丸ごと移動させる
-            window.location.href = "novel.html";
+            // 完全に別のページ「room.html（リンクが保存してある部屋）」へ移動
+            window.location.href = "room.html";
         }
     </script>
+
     <footer class="fiction-footer">※この物語はフィクションです。実在の人物・団体・事件等とは一切関係ありません。</footer>
+
 </body>
 </html>
