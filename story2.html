@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バグと視線 - ヨムノベル</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">■ ヨムノベル (閲覧モード)</div>
+        <div class="user-badge"><a href="room.html" style="color: #333; text-decoration: none;">◁ 部屋に戻る</a></div>
+    </nav>
+
+    <div class="novel-container">
+        <div class="novel-title">バグと視線</div>
+        
+        <div id="novel-body-text">
+            <p class="novel-p">異変はそれだけでは終わらなかった。次の日から、僕のスマートフォンの画面が時々おかしくなるのだ。</p>
+            
+            <p class="novel-p corrupted-text">縺ゅ≠縺溘∪縺がいかれ繧区container縺ｿ縺､縺代◆縺励ｓ縺</p>
+            
+            <p class="novel-p">文字が真っ赤に染まり、バグのような記号が羅列される。けれど、その文字列をじっくり凝視して【ドラッグして選択】してみると、そこには明確な「意志」が隠されていることに気がついた。</p>
+        </div>
+
+        <div class="ans-box">
+            <p id="hint-label">赤くにじむ文字化けの行を「ドラッグで選択」し、隠された言葉を暴いて入力してください</p>
+            <input type="text" id="solve-input" class="ans-input" placeholder="キーワード">
+            <button class="ans-btn" onclick="checkAnswer2()">送信</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswer2() {
+            const answer = document.getElementById("solve-input").value.trim();
+
+            if (answer === "ミツケタ" || answer === "みつけた") {
+                document.body.classList.add("flash-red");
+                alert("異変が収まりました。部屋に戻ります。");
+                
+                // ブラウザに「ストーリー2をクリアした」フラグを保存
+                localStorage.setItem("clear_story2", "true");
+                window.location.href = "room.html";
+            } else {
+                alert("何も起きない。文字化け部分をマウスで左クリックしながらなぞって（ドラッグ）隠された文字を暴け。");
+            }
+        }
+    </script>
+</body>
+</html>
