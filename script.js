@@ -20,25 +20,8 @@ const novelTexts = {
         <p class="novel-p">この呪いを完全に終わらせるための対価が必要だ。この怪異に、生年生死の生贄となる者の「登録した名前」を正確に差し出せば、この苦しみから解放されるのだろうか？</p>`
 };
 
-// 起動時に確実に登録ボタンをプログラム側から生成する
+// Enterキーでも登録できるようにする設定だけを裏で待機
 document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById("btn-container");
-    if (container) {
-        // ボタンを動的に生成
-        const button = document.createElement("button");
-        button.id = "dynamic-reg-btn";
-        button.className = "reg-btn";
-        button.innerText = "登録して読み始める";
-        button.style.cursor = "pointer";
-        
-        // クリックイベントを直接付与
-        button.addEventListener("click", () => {
-            startRegistration();
-        });
-        
-        container.appendChild(button);
-    }
-
     const nameInput = document.getElementById("username-input");
     if (nameInput) {
         nameInput.addEventListener("keypress", (e) => {
