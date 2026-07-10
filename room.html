@@ -125,7 +125,7 @@
             const bodyEl = document.getElementById("room-body");
             const titleEl = document.getElementById("site-title-text");
 
-            // 各章のクリア判定
+            // 各章のクリア判定（厳密に "true" の文字列と一致するかチェック）
             const c1 = localStorage.getItem("clear_story1") === "true";
             const c2 = localStorage.getItem("clear_story2") === "true";
             const c3 = localStorage.getItem("clear_story3") === "true";
@@ -135,13 +135,20 @@
             setupLinkStatus("story2", c2);
             setupLinkStatus("story3", c3);
 
-            // --- 進行度によるサイトの闇堕ち演出（前回の流用） ---
+            // --- 進行度によるサイトの闇堕ち演出 ---
             if (c3) {
                 bodyEl.className = "phase-3";
                 titleEl.innerText = "幻想の逝き庭";
-            } else if (c1 || c2) {
+            } else if (c2) {
                 bodyEl.className = "phase-2";
                 titleEl.style.color = "#cc0000";
+            } else if (c1) {
+                // 1章だけクリアした状態の演出
+                bodyEl.className = "phase-1";
+            } else {
+                // まだ何もクリアしていない時（初期状態）はクラスを消す
+                bodyEl.className = "";
+                titleEl.style.color = "";
             }
         }
 
@@ -158,6 +165,8 @@
             } else {
                 badgeEl.innerText = "【 未読 】";
                 badgeEl.style.color = "#0066cc";
+                badgeEl.style.fontWeight = "normal";
+                linkEl.classList.remove("disabled-link");
             }
         }
 
