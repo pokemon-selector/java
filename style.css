@@ -357,3 +357,15 @@ nav {
 .flash-red {
     background-color: #ff0000 !important;
 }
+
+/* 全ページ共通の免責事項フッター */
+.fiction-footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999999;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    font-family: sans-serif;
+    background: transparent;
+    pointer-events: none; /* ホラー演出の邪魔をしない設定 */
+}
